@@ -10,3 +10,4 @@ grade_worldciv = float(input("What is your grade in worldciv?"))
 average_grade = (grade_math + grade_programming +grade_biology + grade_advisory + grade_english + grade_drawing + grade_worldciv)/7
 
 print("Your average grade is:", round(average_grade,2))
+#done 
