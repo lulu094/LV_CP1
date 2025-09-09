@@ -6,10 +6,10 @@ num2 =float(input("Enter the second number:"))
 
 
 #Print results using d-strings and rounding to 2 decimal places
-print(f"{num1}+{num2}={round(num1 + num2,2)}")
-print(f"{num1}-{num2}={round(num1 - num2,2)}")
-print(f"{num1}*{num2}={round(num1 * num2,2)}")
-print(f"{num1}/{num2}={round(num1 / num2,2)}")
-print(f"{num1}//{num2}={round(num1 // num2,2)}")
-print(f"{num1}%{num2}={round(num1 % num2,2)}")
-print(f"{num1}**{num2}={round(num1 ** num2,2)}")
+print(f"{num1} + {num2} = {round(num1 + num2,2)}")
+print(f"{num1} - {num2} = {round(num1 - num2,2)}")
+print(f"{num1} * {num2} = {round(num1 * num2,2)}")
+print(f"{num1} / {num2} = {round(num1 / num2,2)}")
+print(f"{num1} // {num2} = {round(num1 // num2,2)}")
+print(f"{num1} % {num2} = {round(num1 % num2,2)}")
+print(f"{num1} ** {num2} = {round(num1 ** num2,2)}")
