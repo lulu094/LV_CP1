@@ -1,8 +1,8 @@
 # LV 2nd Basic Calculator
 
 # Get input from the user
-num1 =(input("Enter the first number:"))
-num2 =(input("Enter the second number:"))
+num1 =float(input("Enter the first number:"))
+num2 =float(input("Enter the second number:"))
 
 
 #Print results using d-strings and rounding to 2 decimal places
