@@ -11,7 +11,8 @@ def start_game():
          #Type: Run time Error - The bug was a typo in the input prompt string.
          #This bug kept the code from running correctly because the input prompt was not clear.
         guess = int(input("Enter your guess: "))
-        if attempts >= max_attempts:
+        attempts += 1
+        if attempts >= max_attempts and guess != number_to_guess:
             #Logic Error - without increment, attempts never increse - need to be incremented in the loop
             print(f"Sorry, you've used all {max_attempts} attempts. The number was {number_to_guess}.") 
             game_over = True
