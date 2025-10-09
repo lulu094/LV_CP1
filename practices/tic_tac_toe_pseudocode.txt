@@ -1,0 +1,34 @@
+LV 2nd Tic Tac Toe Pseudocode
+import random
+
+Start Game
+player1_score = 0
+player2_score = 0
+
+print "Welcome to Tic Tac Toe!"
+
+Set a board 3x3 with empty spaces
+Set player 1(person), player 2(compter)
+
+start player's 1 turn
+while no winner and board empty
+    let player 1 choose spot colum and row {0,2}
+    if spot empty 
+    put a "O"
+    elif ...
+    print "Choose another spot"
+
+    if player2
+    player 2's turn 
+
+
+    if board full 
+    Check for 3 O's or X's in a row, column, diagnal
+        if 3 O's 
+        print "You win!"
+        elif 3 X's 
+        print "You lost"
+        else
+        print "It's a tie"
+
+End Game
