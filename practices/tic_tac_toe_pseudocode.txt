@@ -1,34 +1,60 @@
 LV 2nd Tic Tac Toe Pseudocode
-import random
 
-Start Game
-player1_score = 0
-player2_score = 0
+Start the game  
+Set player 1 as the human  
+Set player 2 as the computer  
+Set player1_score to 0  
+Set player2_score to 0  
 
-print "Welcome to Tic Tac Toe!"
+Print "Welcome to Tic Tac Toe"
 
-Set a board 3x3 with empty spaces
-Set player 1(person), player 2(compter)
+Create a 3x3 board filled with empty spaces
 
-start player's 1 turn
-while no winner and board empty
-    let player 1 choose spot colum and row {0,2}
-    if spot empty 
-    put a "O"
-    elif ...
-    print "Choose another spot"
+Repeat these steps while the game is not over:
 
-    if player2
-    player 2's turn 
+    Show the current board to the player
 
+    Player 1 chooses a row between 0 and 2  
+    Player 1 chooses a column between 0 and 2
 
-    if board full 
-    Check for 3 O's or X's in a row, column, diagnal
-        if 3 O's 
-        print "You win!"
-        elif 3 X's 
-        print "You lost"
-        else
-        print "It's a tie"
+    If the chosen spot is empty  
+        Place an O in that spot  
+    Else  
+        Tell the player the spot is taken  
+        Ask the player to choose again
 
-End Game
+    If the board still has empty spots  
+        Computer chooses a random row and column between 0 and 2  
+        If the spot is empty  
+            Place an X in that spot  
+        Else  
+            Keep choosing until an empty spot is found
+
+    Check if player 1 has three O's in a row, column, or diagonal  
+    If yes  
+        Print "You win!"  
+        Add 1 to player1_score  
+        End the game loop
+
+    Check if player 2 has three X's in a row, column, or diagonal  
+    If yes  
+        Print "You lost!"  
+        Add 1 to player2_score  
+        End the game loop
+
+    If the board is full and no one has won  
+        Print "It's a tie!"  
+        End the game loop
+
+After the game ends  
+Print "Game Over"  
+Print "Your score is" followed by player1_score  
+Print "Computer score is" followed by player2_score
+
+Ask the player if they want to play again  
+If the player says yes  
+    Reset the board to empty  
+    Repeat the game loop  
+Else  
+    Print "Thanks for playing"  
+    End the game
