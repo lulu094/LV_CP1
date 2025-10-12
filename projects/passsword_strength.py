@@ -3,7 +3,7 @@
 # Check for special characters (!@#$%^&*()_+-=[]{}|;:,.<>?)
 special_characters = ("!@#$%^&*()_+-=[]{}|;:,.<>?")
 # Set score
-lenght = False
+length = False
 uppercase = False
 lowercase = False
 numbers = False
