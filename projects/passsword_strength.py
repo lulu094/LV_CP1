@@ -1,19 +1,14 @@
 # LV 2nd Password Strength Checker
 
 # Loop the program so the user can check multiple passwords
-while True:
+
     # Ask the user to input a password
     # This is where the program receives input from the user
-    password = input("\nEnter a password to check (or type 'exit' to quit): ")
-
-    # If the user types 'exit', break the loop and end the program
-    if password.lower() == 'exit':
-        print("Exiting password strength checker. Goodbye!")
-        break
+password = input("\nEnter password: ")
 
     # Initialize the score
     # The score will increase based on how many requirements the password meets (max score = 5)
-    score = 0
+score = 0
 
 # Set up flags for each requirement
 # These variables will be used to store whether or not the password meets each condition
@@ -60,11 +55,10 @@ if any( char in special_characters for char in password):
 # This helps the user understand which rules they met and which ones they missed
 print("\nPassword strength:")
 print(f"Length (8 + characters): {'Yes'if length else 'No'} ")
-print(f"")
-print(f"")
-print(f"")
-print(f"")
-print(f":{'Yes'if special else 'No'}")
+print(f"Contains uppercase: {'Yes'if uppercase else 'No'}")
+print(f"Contains lowercase: {'Yes'if lowercase else 'No'}")
+print(f"Contains numbers: {'Yes'if numbers else 'No'}")
+print(f"Contains a special character:{'Yes'if special else 'No'}")
 # Display final strength score
 print(f"\nStrength score {score}/5")
 # Show the user how many points out of 5 their password earned
@@ -77,5 +71,5 @@ elif score == 3:
     print(f"You have a moderate password")
 elif score == 4:
     print(f"You have a strong password")
-else:
+elif score == 5:
     print(f"You have a very strong password!")
