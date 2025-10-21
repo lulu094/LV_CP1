@@ -36,3 +36,8 @@ print(f"Bob's iniitials are:{initials("Bob LaRose")}")
 monster_hp, player_hp = attack(15, monster_hp)
 print(f"player helath:{player_hp}")
 print(f"monster helath:{monster_hp}")
+
+#acces to the numbers 
+#function combined with a for loop
+print(f"a= {ord("a")}")
+print(f"100 = {chr(100)}")
