@@ -50,7 +50,7 @@ def user_turn():
     print("3. Drink a healing potion (+9 HP)")
     print("4. Flee")
 
-    choice = int(input("> "))
+    choice = int(input(": "))
 
     if choice == 1:
         dmg = random.randint(1, player["damage"]) + player["attack"]
