@@ -1,4 +1,4 @@
-# JD - CS1400A - Combat Program
+# LV 2nd Combat
 
 import random
 
@@ -41,9 +41,8 @@ else:
     turn = "monster"
 
 # --- Step 4: Define functions ---
-def user_turn():
+def user_turn(player, monster):
     """Handles all user combat options"""
-    global player, monster
     print("\nWhat would you like to do?")
     print("1. Normal Attack")
     print("2. Wild Attack (double damage but take self-damage)")
@@ -68,17 +67,19 @@ def user_turn():
     elif choice == 4:
         if random.random() < 0.5:
             print("You successfully fled the battle!")
-            return "fled"
+            return player, monster, "fled"
         else:
             print("You failed to flee!")
-    return "continue"
 
-def monster_turn():
+    return player, monster, "continue"
+
+
+def monster_turn(player, monster):
     """Handles the monster's attack"""
-    global player, monster
     dmg_roll = random.randint(1, monster["damage"]) + monster["attack"]
     print(f"The {monster['name']} attacks you for {dmg_roll} damage!")
     player["health"] -= dmg_roll
+    return player, monster
 
 # --- Step 5: Combat Loop ---
 while player["health"] > 0 and monster["health"] > 0:
@@ -87,12 +88,12 @@ while player["health"] > 0 and monster["health"] > 0:
     print("----------------------------")
 
     if turn == "player":
-        result = user_turn()
+        player, monster, result = user_turn(player, monster)
         if result == "fled":
             break
         turn = "monster"
     else:
-        monster_turn()
+        player, monster = monster_turn(player, monster)
         turn = "player"
 
 # --- Step 6: Display Winner ---
