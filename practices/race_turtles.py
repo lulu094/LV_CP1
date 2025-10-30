@@ -39,6 +39,7 @@ def setup_race():
         racer = turtle.Turtle()
         racer.shapesize(2)
         racer.shape("turtle")
+        racer.pensize(5)
         racer.color(color)
         racer.penup()
         racer.goto(-600, start_y)
