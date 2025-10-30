@@ -7,6 +7,7 @@
 import turtle  # built-in library to draw and create turtles
 import random  # built-in library to generate random numbers
 
+#Color names 
 pink = "#DDA0DD"
 brown = "#A52A2A"
 violet = "#CF9FFF"
