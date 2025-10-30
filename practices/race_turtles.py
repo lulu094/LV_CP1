@@ -41,7 +41,7 @@ def setup_race():
         racer.shape("turtle")
         racer.color(color)
         racer.penup()
-        racer.goto(-200, start_y)
+        racer.goto(-600, start_y)
         racer.pendown()
         turtles.append(racer)
         start_y -= 50  # move each turtle down a bit
