@@ -6,7 +6,11 @@
 import turtle  # built-in library to draw and create turtles
 import random  # built-in library to generate random numbers
 
-
+pink = "#DDA0DD"
+brown = "#A52A2A"
+violet = "#CF9FFF"
+green = "#E4D00A"
+orange = "#FFA500"
 # Create screen, draw finish line, and position turtles for the race.
 
 def setup_race():
@@ -21,18 +25,19 @@ def setup_race():
     line.hideturtle()
     line.pensize(5)
     line.penup()
-    line.goto(200, 300)
+    line.goto(200,300)
     line.right(90)
     line.pendown()
-    line.forward(500)
+    line.forward(300)
 
     # Create five turtles with unique colors
-    colors = ["#DDA0DD", "#800020", "#00FFFF", "#BAB86C", "#FDDA0D"]
+    colors = ["brown", "orange", "pink", "violet", "green"]
     start_y = 250
     turtles = []
 
     for color in colors:
         racer = turtle.Turtle()
+        racer.shapesize(2)
         racer.shape("turtle")
         racer.color(color)
         racer.penup()
