@@ -1,13 +1,11 @@
-# LV, CS1400-A, Maze Generator
+# LV 2nd Maze Generator
 # A simple 6x6 maze generator using turtle, nested loops, and conditionals
-# This version is simplified and has lots of pseudocode comments for learning
 
 import turtle
 import random
 
-# ---------------------------
-# SETUP FUNCTION
-# ---------------------------
+# Functions
+
 def setup_turtle():
     """
     Sets up the turtle window and pen.
@@ -23,14 +21,14 @@ def setup_turtle():
     turtle.pendown()         # Start drawing again
     turtle.pensize(2)        # Thicker lines for walls
 
-# ---------------------------
-# DRAW CELL FUNCTION
-# ---------------------------
+
+# Drawing function
+
 def draw_cell(x, y, cell_size):
     """
     Draw one cell of the maze grid.
     Each cell is a square, but we randomly skip one wall
-    so that there are openings (paths) between some cells.
+    so that there are openings between some cells.
     """
     # Move turtle to correct spot based on row and column
     start_x = -250 + x * cell_size
@@ -57,9 +55,9 @@ def draw_cell(x, y, cell_size):
             turtle.pendown()
         turtle.right(90)  # Turn 90 degrees for the next side
 
-# ---------------------------
+
 # MAZE GENERATION FUNCTION
-# ---------------------------
+
 def generate_maze(rows, cols, cell_size):
     """
     Uses nested loops to draw the maze grid.
@@ -71,9 +69,8 @@ def generate_maze(rows, cols, cell_size):
             # Call the draw_cell function to draw each square
             draw_cell(x, y, cell_size)
 
-# ---------------------------
 # MARK START & END
-# ---------------------------
+
 def mark_points(rows, cols, cell_size):
     """
     Marks the start (top-left) and end (bottom-right) of the maze.
@@ -93,9 +90,34 @@ def mark_points(rows, cols, cell_size):
 
     turtle.color("black")  # Reset color
 
-# ---------------------------
+def is_solvable(row_grid, col_grid):
+    size = len(row_grid)
+    visited = set()
+    stack=[(0,0)]
+
+    while stack:
+        x,y = stack.pop()
+        if x == size - 1 and y == -1:
+            return True
+        
+        if (x,y) in visited:
+            continue
+
+        visited.add((x,y))
+        if x < size - 1 and col_grid[x][x+1] == "":
+            stack.append((x+1,y))
+
+        if y < size - 1 and row_grid[y+1][x] == "":
+            stack.append((x, y+1))
+
+        if x > 0 and col_grid[y][x] == "":
+            stack.append((x-1,y))
+
+        if y > 0 and row_grid[y][x] == "":
+            stack.append((x, y-1))
+
 # MAIN FUNCTION
-# ---------------------------
+
 def main():
     """
     Main function to run the maze program.
@@ -120,8 +142,12 @@ def main():
     # Keep window open until user closes it
     turtle.done()
 
-# ---------------------------
+
 # RUN PROGRAM
-# ---------------------------
+
 if __name__ == "__main__":
     main()
+
+
+
+
