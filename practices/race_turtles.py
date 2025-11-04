@@ -1,78 +1,91 @@
-# LV 2nd Turtle Race 
+# LV - CS1400A - Turtle Race
 
-# Import needed libraries
-# Import turtle and random to use drawing and randomness
-import turtle
-import random
+# This program creates a turtle race using the turtle and random libraries.
+# Five turtles of different colors race to a clearly marked finish line.
+# The winner is announced in the terminal once one crosses the finish line.
 
-# Set up screen and race elements
+import turtle  # built-in library to draw and create turtles
+import random  # built-in library to generate random numbers
+
+#Color names 
+pink = "#DDA0DD"
+brown = "#A52A2A"
+violet = "#CF9FFF"
+green = "#E4D00A"
+orange = "#FFA500"
+# Create screen, draw finish line, and position turtles for the race.
+
 def setup_race():
-    # Create a window and draw the finish line
+    """Set up the race screen, draw finish line, and place turtles."""
+    
+    # Create and configure the drawing screen
     screen = turtle.Screen()
-    screen.title("Turtle Race")
+    screen.title("LV 2nd Turtle Race")
 
-    finish_line = turtle.Turtle()
-    finish_line.hideturtle()
-    finish_line.pensize(4)
-    finish_line.penup()
-    finish_line.goto(250, 200)
-    finish_line.right(90)
-    finish_line.pendown()
-    finish_line.forward(400)
+    # Draw the finish line
+    line = turtle.Turtle()
+    line.hideturtle()
+    line.pensize(5)
+    line.penup()
+    line.goto(200,300)
+    line.right(90)
+    line.pendown()
+    line.forward(300)
 
-    # Create 5 turtles, each with a unique color and starting position
-    colors = ["red", "blue", "green", "orange", "purple"]
+    # Create five turtles with unique colors
+    colors = ["brown", "orange", "pink", "violet", "green"]
+    start_y = 250
     turtles = []
-    start_y = 150
 
     for color in colors:
-        racer = turtle.Turtle(shape="turtle")
+        racer = turtle.Turtle()
+        racer.shapesize(2)
+        racer.shape("turtle")
+        racer.pensize(5)
         racer.color(color)
         racer.penup()
-        racer.goto(-250, start_y)
-        start_y -= 60
+        racer.goto(-600, start_y)
+        racer.pendown()
         turtles.append(racer)
+        start_y -= 50  # move each turtle down a bit
 
     return turtles
 
-# Move turtles randomly until one wins
-def race(turtles):
-    #Repeat random movements until a turtle crosses finish line
-    winner = None
+
+
+# Move turtles forward by random steps until one crosses the finish line.
+
+def race_turtles(turtles):
+    """Make turtles race by moving random steps each round."""
     race_on = True
+    winner = None
 
     while race_on:
-        for t in turtles:
-            step = random.randint(2, 10)
-            t.forward(step)
+        for racer in turtles:
+            # Move each turtle forward a random number of pixels
+            distance = random.randint(1, 10)
+            racer.forward(distance)
 
-            # (pseudocode) Check if any turtle has crossed the finish line
-            if t.xcor() >= 250:
-                winner = t.pencolor()
+            # Check for winner
+            if racer.xcor() >= 200:
+                winner = racer.pencolor()
                 race_on = False
                 break
 
     return winner
 
-# Announce the winner
-def announce_winner(winner):
-    # (pseudocode) Show which turtle won the race
-    print("The winner is the", winner, "turtle!")  # print in terminal
 
-    # Create a turtle to write the winner on the screen
-    writer = turtle.Turtle()
-    writer.hideturtle()
-    writer.penup()
-    writer.goto(-60, 0)
-    writer.write("The " + winner + " turtle wins!", font=("Arial", 16, "bold"))
+# Display winner message and stop the program.
 
-# Main function
-def main():
-    # (pseudocode) Set up race, start it, and show the winner
-    racers = setup_race()
-    winner_color = race(racers)
-    announce_winner(winner_color)
+def announce_winner(winner_color):
+    """Announce the winner of the race."""
+    print(f"The {winner_color} turtle won!")  # print to terminal
+
+    # Display message on screen
+    announcer = turtle.Turtle()
+    announcer.hideturtle()
+    announcer.penup()
+    announcer.goto(-50, 0)
+    announcer.write(f"The {winner_color} turtle won!", font=("Arial", 16, "bold"))
+
     turtle.done()
-
-# To run the program, just type:
-# main()

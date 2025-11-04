@@ -83,18 +83,3 @@ def is_solvable(row_grid, col_grid):
         if y > 0 and row_grid[y][x] == "":
             stack.append((x, y - 1))
 
-# Run the whole thing
-def main():
-    setup_turtle()
-
-    rows = 6
-    cols = 6
-    cell_size = 60
-
-    generate_maze(rows, cols, cell_size)
-    mark_points(rows, cols, cell_size)
-
-    turtle.done()
-
-# Just call the main function to start
-main()
