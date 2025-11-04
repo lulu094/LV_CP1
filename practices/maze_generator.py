@@ -25,39 +25,6 @@ def draw_cell(x, y, cell_size):
     turtle.setheading(0)  # Face right
     turtle.pendown()
 
-    # Draw the four sides of the cell
-    for _ in range(4):
-        if random.choice([True, False]):
-            turtle.forward(cell_size)  # Draw wall
-        else:
-            turtle.penup()
-            turtle.forward(cell_size)  # Leave gap
-            turtle.pendown()
-        turtle.right(90)  # Turn to draw next side
-
-# Build the full maze grid
-def generate_maze(rows, cols, cell_size):
-    for y in range(rows):
-        for x in range(cols):
-            draw_cell(x, y, cell_size)
-
-# Mark the start and end points of the maze
-def mark_points(rows, cols, cell_size):
-    turtle.penup()
-
-    # Start point (top-left)
-    turtle.color("green")
-    turtle.goto(-250 + cell_size / 3, 250 - cell_size / 1.5)
-    turtle.write("START")
-
-    # End point (bottom-right)
-    turtle.color("red")
-    turtle.goto(-250 + (cols - 1) * cell_size + cell_size / 3,
-                250 - (rows - 1) * cell_size - cell_size / 1.5)
-    turtle.write("END")
-
-    turtle.color("black")  # Reset color for future drawing
-
 # Check if the maze is solvable 
 def is_solvable(row_grid, col_grid):
     size = len(row_grid)

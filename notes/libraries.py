@@ -12,7 +12,7 @@ turtle.shape("turtle")
 turtle.shapesize(5)
 turtle.color("#BAB86C")
 turtle.pensize(5)
-turtle.fillcolor("556B2F")
+turtle.fillcolor("#556B2F")
 turtle.begin_fill()
 for x in range(4): #making a square
     turtle.forward(100)

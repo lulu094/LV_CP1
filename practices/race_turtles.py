@@ -1,4 +1,4 @@
-# LV - CS1400A - Turtle Race
+# LV 2nd  Turtle Race
 
 # This program creates a turtle race using the turtle and random libraries.
 # Five turtles of different colors race to a clearly marked finish line.
@@ -86,6 +86,6 @@ def announce_winner(winner_color):
     announcer.hideturtle()
     announcer.penup()
     announcer.goto(-50, 0)
-    announcer.write(f"The {winner_color} turtle won!", font=("Arial", 16, "bold"))
+    announcer.write(f"The {winner_color} turtle won!")
 
     turtle.done()
