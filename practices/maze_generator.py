@@ -49,4 +49,3 @@ def is_solvable(row_grid, col_grid):
             stack.append((x - 1, y))
         if y > 0 and row_grid[y][x] == "":
             stack.append((x, y - 1))
-
