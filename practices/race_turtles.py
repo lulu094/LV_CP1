@@ -1,24 +1,12 @@
-# LV 2nd  Turtle Race
+# LV 2nd Turtle Race
+# This program makes 5 turtles race to a finish line!
 
-# This program creates a turtle race using the turtle and random libraries.
-# Five turtles of different colors race to a clearly marked finish line.
-# The winner is announced in the terminal once one crosses the finish line.
+import turtle
+import random
 
-import turtle  # built-in library to draw and create turtles
-import random  # built-in library to generate random numbers
-
-#Color names 
-pink = "#DDA0DD"
-brown = "#A52A2A"
-violet = "#CF9FFF"
-green = "#E4D00A"
-orange = "#FFA500"
-# Create screen, draw finish line, and position turtles for the race.
-
+# Set up the race 
 def setup_race():
-    """Set up the race screen, draw finish line, and place turtles."""
-    
-    # Create and configure the drawing screen
+    # Make a screen
     screen = turtle.Screen()
     screen.title("LV 2nd Turtle Race")
 
@@ -27,46 +15,40 @@ def setup_race():
     line.hideturtle()
     line.pensize(5)
     line.penup()
-    line.goto(200,300)
+    line.goto(200, 300)
     line.right(90)
     line.pendown()
     line.forward(300)
 
-    # Create five turtles with unique colors
+    # Make turtles
     colors = ["brown", "orange", "pink", "violet", "green"]
-    start_y = 250
     turtles = []
+    y = 250
 
     for color in colors:
         racer = turtle.Turtle()
-        racer.shapesize(2)
         racer.shape("turtle")
-        racer.pensize(5)
         racer.color(color)
         racer.penup()
-        racer.goto(-600, start_y)
+        racer.goto(-600, y)
         racer.pendown()
         turtles.append(racer)
-        start_y -= 50  # move each turtle down a bit
+        y -= 50
 
     return turtles
 
 
-
-# Move turtles forward by random steps until one crosses the finish line.
-
+# Make the turtles move
 def race_turtles(turtles):
-    """Make turtles race by moving random steps each round."""
     race_on = True
     winner = None
 
     while race_on:
         for racer in turtles:
-            # Move each turtle forward a random number of pixels
-            distance = random.randint(1, 10)
-            racer.forward(distance)
+            step = random.randint(1, 10)
+            racer.forward(step)
 
-            # Check for winner
+            # Check if a turtle reached the finish line
             if racer.xcor() >= 200:
                 winner = racer.pencolor()
                 race_on = False
@@ -75,13 +57,10 @@ def race_turtles(turtles):
     return winner
 
 
-# Display winner message and stop the program.
-
+# Show who won
 def announce_winner(winner_color):
-    """Announce the winner of the race."""
-    print(f"The {winner_color} turtle won!")  # print to terminal
+    print(f"The {winner_color} turtle won!")
 
-    # Display message on screen
     announcer = turtle.Turtle()
     announcer.hideturtle()
     announcer.penup()
@@ -89,3 +68,9 @@ def announce_winner(winner_color):
     announcer.write(f"The {winner_color} turtle won!")
 
     turtle.done()
+
+
+# Run the program
+turtles = setup_race()
+winner = race_turtles(turtles)
+announce_winner(winner)
