@@ -1,6 +1,12 @@
 # LV 2nd Maze Generator
+# 1st set variables
 # makes a random 6x6 maze that is always solvable
-
+# 2nd build functions
+    # function to randomize if walls are present
+    # function to check if maze is solvable
+    # make sure the start point and end point are set correctly
+    # use the path coordinates to check correct wall coordinate in each direction 
+# the turtle has to move the same distance it needs to change if the pen is up or down
 import turtle
 import random
 
@@ -32,76 +38,21 @@ def setup_turtle():
     turtle.goto(-250, 250)
     turtle.pendown()
 
-# carve maze using recursion (this part was hard)
-def carve_maze(x, y):
+# make the walls using recursion (this part is hard!!!)
+def walls(x, y):
     visited[y][x] = True
     directions = [(0, -1, 0), (1, 0, 1), (0, 1, 2), (-1, 0, 3)]  # up, right, down, left
     random.shuffle(directions)  # mix it up
-
-    for d in directions:
-        dx = d[0]
-        dy = d[1]
-        wall = d[2]
-        next_x = x + dx
-        next_y = y + dy
-
-        # check bounds
-        if next_x >= 0 and next_x < cols and next_y >= 0 and next_y < rows:
-            if visited[next_y][next_x] == False:
-                # knock down wall between current and next
-                maze[y][x][wall] = False
-                opposite = (wall + 2) % 4
-                maze[next_y][next_x][opposite] = False
-                carve_maze(next_x, next_y)
-
+       
+               
 # draw one cell with turtle
 def draw_cell(x, y):
-    walls = maze[y][x]
-    start_x = -250 + x * cell_size
-    start_y = 250 - y * cell_size
 
-    turtle.penup()
-    turtle.goto(start_x, start_y)
-    turtle.setheading(0)
-
-    # draw top wall
-    if walls[0] == True:
-        turtle.pendown()
-    else:
-        turtle.penup()
-    turtle.forward(cell_size)
-    turtle.right(90)
-
-    # draw right wall
-    if walls[1] == True:
-        turtle.pendown()
-    else:
-        turtle.penup()
-    turtle.forward(cell_size)
-    turtle.right(90)
-
-    # draw bottom wall
-    if walls[2] == True:
-        turtle.pendown()
-    else:
-        turtle.penup()
-    turtle.forward(cell_size)
-    turtle.right(90)
-
-    # draw left wall
-    if walls[3] == True:
-        turtle.pendown()
-    else:
-        turtle.penup()
-    turtle.forward(cell_size)
-    turtle.right(90)
-
-    turtle.pendown()  # just in case
 
 # draw the whole maze
 def draw_maze():
     setup_turtle()
-    carve_maze(0, 0) 
+    walls(0, 0) 
 
     for row in range(rows):
         for col in range(cols):
