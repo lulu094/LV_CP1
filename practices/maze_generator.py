@@ -47,7 +47,7 @@ def walls(x, y):
                
 # draw one cell with turtle
 def draw_cell(x, y):
-
+    
 
 # draw the whole maze
 def draw_maze():
@@ -68,6 +68,7 @@ def draw_maze():
     turtle.dot(15, "red")    # end
 
     print("Maze done!")  # just checking
+    
 
 # make sure it is solvable
 def is_solvable(row_grid, col_grid):
