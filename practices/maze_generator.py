@@ -1,34 +1,23 @@
-# LV 2nd Maze Generator
-# 1st set variables
-# makes a random 6x6 maze that is always solvable
-# 2nd build functions
-    # function to randomize if walls are present
-    # function to check if maze is solvable
-    # make sure the start point and end point are set correctly
-    # use the path coordinates to check correct wall coordinate in each direction 
-# the turtle has to move the same distance it needs to change if the pen is up or down
+# LV 2nd Maze Generator - Lucciana Venancio Mostaceli - CS 1400
 import turtle
 import random
 
-# maze size stuff
+# =======================
+# Maze Configuration
+# =======================
 rows = 6
 cols = 6
 cell_size = 50
 
-# making the maze grid with walls
-maze = []
-for r in range(rows):
-    row = []
-    for c in range(cols):
-        row.append([True, True, True, True])  # top, right, bottom, left
-    maze.append(row)
+# Maze grid: each cell has 4 walls (top, right, bottom, left)
+maze = [[[True, True, True, True] for c in range(cols)] for r in range(rows)]
 
-# visited grid 
-visited = []
-for r in range(rows):
-    visited.append([False] * cols)
+# Visited grid for maze generation
+visited = [[False] * cols for _ in range(rows)]
 
-# turtle setup
+# =======================
+# Turtle Setup
+# =======================
 def setup_turtle():
     turtle.setup(600, 600)
     turtle.speed(0)
@@ -38,65 +27,67 @@ def setup_turtle():
     turtle.goto(-250, 250)
     turtle.pendown()
 
-# make the walls using recursion (this part is hard!!!)
+# =======================
+# Maze Generation
+# Recursive DFS with wall removal
+# =======================
 def walls(x, y):
     visited[y][x] = True
-    directions = [(0, -1, 0), (1, 0, 1), (0, 1, 2), (-1, 0, 3)]  # up, right, down, left
-    random.shuffle(directions)  # mix it up
-       
-               
-# draw one cell with turtle
-def draw_cell(x, y):
-    
+    # Up, Right, Down, Left (dx, dy, wall_index)
+    directions = [(0, -1, 0), (1, 0, 1), (0, 1, 2), (-1, 0, 3)]
+    random.shuffle(directions)
 
-# draw the whole maze
+    for dx, dy, wall_index in directions:
+        nx, ny = x + dx, y + dy
+        # Check boundaries and if not visited
+        if 0 <= nx < cols and 0 <= ny < rows and not visited[ny][nx]:
+            # Remove wall between current and next cell
+            maze[y][x][wall_index] = False
+            maze[ny][nx][(wall_index + 2) % 4] = False
+            walls(nx, ny)  # Recursive call
+
+# =======================
+# Draw One Cell
+# =======================
+def draw_cell(x, y):
+    start_x = -250 + x * cell_size
+    start_y = 250 - y * cell_size
+    turtle.penup()
+    turtle.goto(start_x, start_y)
+    
+    # Each wall: top, right, bottom, left
+    for i, (dx, dy) in enumerate([(cell_size, 0), (0, -cell_size), (-cell_size, 0), (0, cell_size)]):
+        if maze[y][x][i]:  # Conditional for wall existence
+            turtle.pendown()
+        else:
+            turtle.penup()
+        turtle.goto(turtle.xcor() + dx, turtle.ycor() + dy)
+
+    turtle.penup()
+
+# =======================
+# Draw the Entire Maze
+# =======================
 def draw_maze():
     setup_turtle()
-    walls(0, 0) 
-
+    walls(0, 0)  # Generate maze recursively
+    
+    # Nested loops to draw each cell
     for row in range(rows):
         for col in range(cols):
             draw_cell(col, row)
-            # I thought I needed to move forward here but turns out I don't
-            # turtle.forward(cell_size)
 
-    # mark start and end
+    # Mark start (green) and end (red)
     turtle.penup()
     turtle.goto(-225, 225)
-    turtle.dot(15, "green")  # start
+    turtle.dot(15, "green")  # Start
     turtle.goto(-250 + (cols - 1) * cell_size + 25, 250 - (rows - 1) * cell_size - 25)
-    turtle.dot(15, "red")    # end
+    turtle.dot(15, "red")    # End
 
-    print("Maze done!")  # just checking
-    
+    print("Maze done!")
 
-# make sure it is solvable
-def is_solvable(row_grid, col_grid):
-    size = len(row_grid)
-    visited = set()
-    stack = [(0, 0)]
-
-    while stack:
-        x, y = stack.pop()
-        if x == size - 1 and y == size - 1:
-            return True
-
-        if (x, y) in visited:
-            continue
-
-        visited.add((x, y))
-
-        if x < size - 1 and col_grid[y][x + 1] == "":
-            stack.append((x + 1, y))
-        if y < size - 1 and row_grid[y + 1][x] == "":
-            stack.append((x, y + 1))
-        if x > 0 and col_grid[y][x] == "":
-            stack.append((x - 1, y))
-        if y > 0 and row_grid[y][x] == "":
-            stack.append((x, y - 1))
-
-    return False
-
-# run it
+# =======================
+# Run Program
+# =======================
 draw_maze()
 turtle.done()
