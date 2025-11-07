@@ -1,10 +1,10 @@
-# LV 2nd Maze Generator - Lucciana Venancio Mostaceli - CS 1400
+# LV 2nd Maze Generator
 import turtle
 import random
 
-# =======================
+
 # Maze Configuration
-# =======================
+
 rows = 6
 cols = 6
 cell_size = 50
@@ -15,9 +15,9 @@ maze = [[[True, True, True, True] for c in range(cols)] for r in range(rows)]
 # Visited grid for maze generation
 visited = [[False] * cols for _ in range(rows)]
 
-# =======================
+
 # Turtle Setup
-# =======================
+
 def setup_turtle():
     turtle.setup(600, 600)
     turtle.speed(0)
@@ -27,16 +27,17 @@ def setup_turtle():
     turtle.goto(-250, 250)
     turtle.pendown()
 
-# =======================
+
 # Maze Generation
-# Recursive DFS with wall removal
-# =======================
+# wall removal
+
 def walls(x, y):
     visited[y][x] = True
     # Up, Right, Down, Left (dx, dy, wall_index)
     directions = [(0, -1, 0), (1, 0, 1), (0, 1, 2), (-1, 0, 3)]
     random.shuffle(directions)
-
+    # dy change in y
+    # dx change in x
     for dx, dy, wall_index in directions:
         nx, ny = x + dx, y + dy
         # Check boundaries and if not visited
@@ -45,10 +46,11 @@ def walls(x, y):
             maze[y][x][wall_index] = False
             maze[ny][nx][(wall_index + 2) % 4] = False
             walls(nx, ny)  # Recursive call
+            # nx next x
+            # ny next
 
-# =======================
 # Draw One Cell
-# =======================
+
 def draw_cell(x, y):
     start_x = -250 + x * cell_size
     start_y = 250 - y * cell_size
@@ -65,9 +67,8 @@ def draw_cell(x, y):
 
     turtle.penup()
 
-# =======================
+
 # Draw the Entire Maze
-# =======================
 def draw_maze():
     setup_turtle()
     walls(0, 0)  # Generate maze recursively
@@ -86,8 +87,8 @@ def draw_maze():
 
     print("Maze done!")
 
-# =======================
+
 # Run Program
-# =======================
+
 draw_maze()
 turtle.done()
