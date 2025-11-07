@@ -1,4 +1,34 @@
 # LV 2nd Maze Generator
+
+# 1-Import libraries
+# 2-Make a 6x6 grid/ maze configuration
+    # the maze  has 6 rows and 6 columns
+    #  size is 50
+# 3-Set up of hte turtle
+    # penisze
+    # color
+    # speed
+    # location were it starts
+# 4-Actually draw the code
+    # draw the walls
+        # define the start point
+        # make sure it is an open spot if so then draw a line
+        # left, up, down, right
+    # draw the cell
+        # how to know where to start
+        # know how much to turn left, up, down, right
+# 5-Run the code
+
+# Essentials
+    # Turtle library
+    # Nested loops
+        # for loop
+    # Conditionals
+    # Make sure the maze is solvable
+    # Functions
+        #def
+    # Mark the START and END point
+
 import turtle
 import random
 
@@ -19,6 +49,7 @@ visited = [[False] * cols for _ in range(rows)]
 # Turtle Setup
 
 def setup_turtle():
+    turtle.color("#5D3FD3")
     turtle.setup(600, 600)
     turtle.speed(0)
     turtle.hideturtle()
@@ -47,7 +78,7 @@ def walls(x, y):
             maze[ny][nx][(wall_index + 2) % 4] = False
             walls(nx, ny)  # Recursive call
             # nx next x
-            # ny next
+            # ny next y
 
 # Draw One Cell
 
