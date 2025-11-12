@@ -55,17 +55,32 @@ order_drink = ""
 order_main = ""
 order_sides = []
 
-# Choose drink
-#print("\nDrinks:")
-#for d in drinks:
-    #print(d)
-#while True:
-    #order_drink = input("Choose a drink: ")
-    #if order_drink in drinks:
-       # total += drinks[order_drink]
-       # break
-    #else:
-       # print("Sorry, that is not on the menu. Try again.")
+# Choose a drink
+print("\nDrinks: ")
+for d in drinks:
+    print(d)
+while True:
+    order_drink = input("Choose a drink:")
+    if order_drink in drinks:
+        total += drinks[order_drink]
+        break
+    else:
+        print("Please choose something from the menu")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Choose main course
 #print("\nMain Courses:")
