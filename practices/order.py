@@ -3,7 +3,8 @@
     # cost
     # name of the drinks and rates
     # print the cost and drink ordered
-
+# Let the user order what they want and check it is actually on the menu
+# they can also order it if it is lower case
 
 print("Welcome to Puro Peru!")
 
@@ -52,7 +53,7 @@ dessert = {
 # Start order
 total = 0
 order_drink = ""
-order_main = ""
+order_main = ""# Special meals
 order_sides = []
 
 # Choose a drink
@@ -63,6 +64,21 @@ while True:
     order_drink = input("Choose a drink:")
     if order_drink in drinks:
         total += drinks[order_drink]
+        break
+    else:
+        print("Please choose something from the menu")
+
+# Choose main dish
+print("\nMain Courses")
+main_courses = {}
+main_courses.update(special_meals)
+main_courses.update(seafood)
+for m in main_courses:
+    print(m)
+while True:
+    order_courses = input("Choose a main course:")
+    if main_courses in order_courses:
+        total += main_courses[order_courses]
         break
     else:
         print("Please choose something from the menu")
@@ -81,9 +97,6 @@ while True:
 
 
 
-
-# Choose main course
-#print("\nMain Courses:")
 #main_courses = {}
 #main_courses.update(special_meals)
 #main_courses.update(seafood)
