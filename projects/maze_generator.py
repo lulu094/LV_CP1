@@ -1,125 +1,106 @@
 # LV 2nd Maze Generator
 
-# 1-Import libraries
-# 2-Make a 6x6 grid/ maze configuration
-    # the maze  has 6 rows and 6 columns
-    #  size is 50
-# 3-Set up of hte turtle
-    # penisze
-    # color
-    # speed
-    # location were it starts
-# 4-Actually draw the code
-    # draw the walls
-        # define the start point
-        # make sure it is an open spot if so then draw a line
-        # left, up, down, right
-    # draw the cell
-        # how to know where to start
-        # know how much to turn left, up, down, right
-# 5-Run the code
-
-# Essentials
-    # Turtle library
-    # Nested loops
-        # for loop
-    # Conditionals
-    # Make sure the maze is solvable
-    # Functions
-        #def
-    # Mark the START and END point
+# 1. Import turtle and random
+# 2. Create a grid using simple loops (6x6)
+# 3. Use nested loops to go through every square
+# 4. Use if statements to decide when to draw walls
+# 5. Use turtle to draw each cell and walls
+# 6. Mark a start and end point in color
 
 import turtle
 import random
 
 
-# Maze Configuration
-
-rows = 6
-cols = 6
-cell_size = 50
-
-# Maze grid: each cell has 4 walls (top, right, bottom, left)
-maze = [[[True, True, True, True] for c in range(cols)] for r in range(rows)]
-
-# Visited grid for maze generation
-visited = [[False] * cols for _ in range(rows)]
-
-
-# Turtle Setup
-
+# - Set the window size
+# - Set color, pensize, and speed
+# - Move the turtle to top-left starting spot
 def setup_turtle():
-    turtle.color("#5D3FD3")
     turtle.setup(600, 600)
+    turtle.color("#5D3FD3")  
+    turtle.pensize(2)
     turtle.speed(0)
     turtle.hideturtle()
-    turtle.pensize(2)
     turtle.penup()
     turtle.goto(-250, 250)
     turtle.pendown()
 
 
-# Maze Generation
-# wall removal
+rows = 6
+cols = 6
+cell_size = 50
 
-def walls(x, y):
-    visited[y][x] = True
-    # Up, Right, Down, Left (dx, dy, wall_index)
-    directions = [(0, -1, 0), (1, 0, 1), (0, 1, 2), (-1, 0, 3)]
-    random.shuffle(directions)
-    # dy change in y
-    # dx change in x
-    for dx, dy, wall_index in directions:
-        nx, ny = x + dx, y + dy
-        # Check boundaries and if not visited
-        if 0 <= nx < cols and 0 <= ny < rows and not visited[ny][nx]:
-            # Remove wall between current and next cell
-            maze[y][x][wall_index] = False
-            maze[ny][nx][(wall_index + 2) % 4] = False
-            walls(nx, ny)  # Recursive call
-            # nx next x
-            # ny next y
+# build a simple 2D list (no fancy list comprehension)
+maze = []
+for row in range(rows):
+    row_data = []
+    for col in range(cols):
+        # 1 means wall, 0 means open path
+        row_data.append(1)
+    maze.append(row_data)
 
-# Draw One Cell
 
-def draw_cell(x, y):
-    start_x = -250 + x * cell_size
-    start_y = 250 - y * cell_size
+
+# - Loop through every cell
+# - Use random numbers to open up some paths
+# - Use conditionals to control how many open cells appear
+def make_maze():
+    for r in range(rows):
+        for c in range(cols):
+            # random number 0 or 1
+            number = random.randint(0, 1)
+
+            # open up some random spaces
+            if number == 0 or (r == 0 and c == 0):
+                maze[r][c] = 0
+            else:
+                maze[r][c] = 1
+
+
+# - Go to the top-left corner of that cell
+# - Draw walls around it if the value is 1
+# - If it’s 0, skip (no walls)
+def draw_cell(col, row):
+    start_x = -250 + col * cell_size
+    start_y = 250 - row * cell_size
     turtle.penup()
     turtle.goto(start_x, start_y)
-    
-    # Each wall: top, right, bottom, left
-    for i, (dx, dy) in enumerate([(cell_size, 0), (0, -cell_size), (-cell_size, 0), (0, cell_size)]):
-        if maze[y][x][i]:  # Conditional for wall existence
-            turtle.pendown()
-        else:
-            turtle.penup()
-        turtle.goto(turtle.xcor() + dx, turtle.ycor() + dy)
 
+    # draw walls only if it's a wall cell
+    if maze[row][col] == 1:
+        turtle.pendown()
+        for i in range(4):
+            turtle.forward(cell_size)
+            turtle.right(90)
+    else:
+        # leave it open to form paths
+        pass
     turtle.penup()
 
 
-# Draw the Entire Maze
+# - Setup turtle
+# - Call make_maze to fill grid
+# - Use nested loops to draw all cells
+# - Mark start and end points
 def draw_maze():
     setup_turtle()
-    walls(0, 0)  # Generate maze recursively
-    
-    # Nested loops to draw each cell
-    for row in range(rows):
-        for col in range(cols):
-            draw_cell(col, row)
+    make_maze()
 
-    # Mark start (green) and end (red)
+    # draw each cell
+    for r in range(rows):
+        for c in range(cols):
+            draw_cell(c, r)
+
+    # Mark start and end with your original colors
     turtle.penup()
     turtle.goto(-225, 225)
-    turtle.dot(15, "green")  # Start
-    turtle.goto(-250 + (cols - 1) * cell_size + 25, 250 - (rows - 1) * cell_size - 25)
-    turtle.dot(15, "red")    # End
+    turtle.dot(15, "green")  # Start point
+    turtle.goto(-225 + (cols - 1) * cell_size, 225 - (rows - 1) * cell_size)
+    turtle.dot(15, "red")    # End point
 
-    print("Maze done!")
+    print("Maze created successfully!")
 
 
-# Run Program
+# run the program
 
 draw_maze()
 turtle.done()
