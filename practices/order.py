@@ -77,35 +77,11 @@ for m in main_courses:
     print(m)
 while True:
     order_courses = input("Choose a main course:")
-    if main_courses in order_courses:
+    if order_main in main_courses:
         total += main_courses[order_courses]
         break
     else:
         print("Please choose something from the menu")
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-#main_courses = {}
-#main_courses.update(special_meals)
-#main_courses.update(seafood)
-#for m in main_courses:
-    #print(m)
-#while True:
-    #order_main = input("Choose a main course: ")
-    #if order_main in main_courses:
-    #    total += main_courses[order_main]
-    #    break
-    #else:
-    #    print("Sorry, that is not on the menu. Try again.")
+print("Your order: " (order_courses))
