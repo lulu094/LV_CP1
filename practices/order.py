@@ -68,6 +68,17 @@ while True:
     else:
         print("Please choose something from the menu")
 
+print("\nSoups: ")
+for s in soups:
+    print(s)
+while True:
+    order_soups = input("Choose a soup:")
+    if order_soups in soups:
+        total += soups[order_soups]
+        break
+    else:
+        print("Please choose something from the menu")
+
 # Choose main dish
 print("\nMain Courses")
 main_courses = {}
