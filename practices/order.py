@@ -44,12 +44,6 @@ seafood = {
     "Tallarines verdes con mariscos": 19.99
 }
 
-dessert = {
-    "Alfajor Clasico": 5.99,
-    "Pionono Peruano": 8.99,
-    "Arroz con leche": 5.99,
-    "Masamorra morada": 5.99
-}
 
 # Helps find the match quicker
 def find_item(user_input, menu_dict):
