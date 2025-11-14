@@ -1,13 +1,14 @@
 # LV 2nd Order Up
-#make a library for drinks,appetizers,soup,special meals, seafood, and desserts
-    # cost
-    # name of the drinks and rates
-    # print the cost and drink ordered
-# Let the user order what they want and check it is actually on the menu
-# they can also order it if it is lower case
+# The program lets the user order from a Peruvian menu
+# Menu items are stored in dictionaries with their prices
+# The user chooses a drink, a main course, and two side dishes
+# Input is checked using a helper function that matches words even in lowercase
+# The program adds up the cost as the user selects valid items
+# At the end, the user's full order and total cost are displayed
 
 print("Welcome to Puro Peru!")
 
+# Menu dictionary
 drinks = {
     "Inca Kola": 4.81,
     "Coca Cola ": 3.59,
@@ -25,8 +26,8 @@ appetizer = {
 soups = {
     "Sopa Criolla": 10.99,
     "Sopa de Paico": 12.99,
-    "Cazuela":6.99,
-    "Chupe":10.99
+    "Cazuela": 6.99,
+    "Chupe": 10.99
 }
 
 special_meals = {
@@ -39,7 +40,7 @@ special_meals = {
 seafood = {
     "Pescado a lo macho": 19.99,
     "Saltado de camarones": 15.99,
-    "Tallarines saltados con mariscos" : 19.99,
+    "Tallarines saltados con mariscos": 19.99,
     "Tallarines verdes con mariscos": 19.99
 }
 
@@ -50,49 +51,81 @@ dessert = {
     "Masamorra morada": 5.99
 }
 
-# Start order
-total = 0
-order_drink = ""
-order_main = ""# Special meals
-order_sides = []
+# Helps find the match quicker
+def find_item(user_input, menu_dict):
+    user_input = user_input.strip().lower()
+    for item in menu_dict:
+        if item.lower() == user_input:
+            return item
+    return None
 
-# Choose a drink
-print("\nDrinks: ")
+# Start Order
+total = 0
+
+# Drinks
+print("\nDrinks:")
 for d in drinks:
     print(d)
+
 while True:
-    order_drink = input("Choose a drink:")
-    if order_drink in drinks:
-        total += drinks[order_drink]
+    user = input("Choose a drink: ")
+    drink = find_item(user, drinks)
+    if drink:
+        total += drinks[drink]
         break
     else:
-        print("Please choose something from the menu")
+        print("Please choose something from the menu.")
 
-print("\nSoups: ")
-for s in soups:
-    print(s)
-while True:
-    order_soups = input("Choose a soup:")
-    if order_soups in soups:
-        total += soups[order_soups]
-        break
-    else:
-        print("Please choose something from the menu")
-
-# Choose main dish
-print("\nMain Courses")
+# Main course 
+print("\nMain Courses:")
 main_courses = {}
 main_courses.update(special_meals)
 main_courses.update(seafood)
+
 for m in main_courses:
     print(m)
+
 while True:
-    order_courses = input("Choose a main course:")
-    if order_main in main_courses:
-        total += main_courses[order_courses]
+    user = input("Choose a main course: ")
+    main = find_item(user, main_courses)
+    if main:
+        total += main_courses[main]
         break
     else:
-        print("Please choose something from the menu")
+        print("Please choose something from the menu.")
 
+# Side Dishes
+print("\nSide Dishes:")
+side_dishes = {}
+side_dishes.update(appetizer)
+side_dishes.update(soups)
 
-print("Your order: " (order_courses))
+for s in side_dishes:
+    print(s)
+
+while True:
+    user = input("Choose side #1: ")
+    side1 = find_item(user, side_dishes)
+    if side1:
+        total += side_dishes[side1]
+        break
+    else:
+        print("Please choose something from the menu.")
+
+while True:
+    user = input("Choose side #2: ")
+    side2 = find_item(user, side_dishes)
+    if side2:
+        total += side_dishes[side2]
+        break
+    else:
+        print("Please choose something from the menu.")
+
+# Printing  order
+print("\nYour order:")
+print("Drink:", drink)
+print("Main Course:", main)
+print("Side Dishes:")
+print("-", side1)
+print("-", side2)
+print("Total Cost: $", round(total, 2))
