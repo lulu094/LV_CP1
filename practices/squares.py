@@ -16,6 +16,6 @@ def square(num):
 # map goes through each number and applies the square function
 squared_numbers = list(map(square, numbers))
 
-# Loop through both lists so we can show the original + squared versions
+# Loop through both lists so we can show the original  squared versions
 for i in range(len(numbers)):
     print(f"Original: {numbers[i]}, Squared: {squared_numbers[i]}")
