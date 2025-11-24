@@ -1,4 +1,5 @@
 # LV 2nd Factorial Calculator
+#Emma's pseudocde
 # Welcome the user
 # User inputs
 #Use int( ) or str() to make sure they use numbers
@@ -10,7 +11,7 @@
 #when user types "done"
 #print ( thank you for using the calculator)
 
-print("Welcome to the LV 2nd Factorial Calculator!")   
+print("Welcome to Factorial Calculator!")   
 # Welcome the user
 # (already done above)
 
