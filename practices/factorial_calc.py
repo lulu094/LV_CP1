@@ -16,22 +16,22 @@ print("Welcome to the LV 2nd Factorial Calculator!")
 
 # User inputs
 while True:                                            
-    user_input = input("Enter a number to calculate its factorial (or type 'done' to exit): ")
+    original = input("Enter a number to calculate its factorial (or type 'done' to exit): ")
 
 #Use int( ) or str() to make sure they use numbers
     # actual code checks input below
 
 # Use if statements to make sure it is true
-    if user_input.lower() == "done":                   
+    if original.lower() == "done":                   
         break
 
 # else say its an invalid input, make user.type a number continue the code
-    if not user_input.isdigit():                       
+    if not original.isdigit():                       
         print("Invalid input. Please type a number.")
         continue
 
 #ask user if it wants to put another number
-    num = int(user_input)                              
+    num = int(original)                              
     factorial = 1
 
 # (original # * og#-1, og#-2 till you get to one) = answer
