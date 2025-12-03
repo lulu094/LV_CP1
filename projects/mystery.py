@@ -4,6 +4,9 @@
 # RANDOM(min, max) → returns integer  
 # RANDOM() < 0.5 → 50% chance  
 
+# Introduce the player to the game
+# print "Welcome to ... This are the rules .... and goals..."
+
 # List of rooms
 # ["Library", "Kitchen", "Hallway", "Basement",  
 #  "Training Room", "Puzzle Room", "Camera Room",  
@@ -87,3 +90,12 @@
 #         PRINT "You don't have the diary."  
 #         RETURN  
 
+# If player(logic) < if or player ("observation") or if:
+#    print "You misread the diary… it gives false directions!"
+#    diary_misread = True
+#    add_clues = diary_clues - placed in wrong place
+# else
+#  PRINT "The diary reveals true hints about the wings."  
+#  add_clue("Diary: True wing avoids traps and decoys.")  
+
+#
