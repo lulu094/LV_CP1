@@ -1,5 +1,9 @@
 # LV 2nd Mystery Game
-# import random
+# IMPORTS & INITIAL SETUP  
+# Import random for randomness in rooms, clues, villains  
+# RANDOM(min, max) → returns integer  
+# RANDOM() < 0.5 → 50% chance  
+
 # List of rooms
 # ["Library", "Kitchen", "Hallway", "Basement",  
 #  "Training Room", "Puzzle Room", "Camera Room",  
@@ -16,6 +20,8 @@
 #     kidnapper_room = "East Wing (Compound)"  
 # ELSE:  
 #     kidnapper_room = "West Wing (Compound)" 
+# KIDNAPPER SUB-ROOM: RANDOM CHOICE in possible sub-rooms  
+# EMMA SUB-ROOM: ALWAYS behind Locked Door  
 
 # Player dictionary  
 # player["strength_health"] = 100  
@@ -30,10 +36,6 @@
 # key_stolen = FALSE  
 # diary_misread = FALSE 
 
-# Master Key
-# if master key and clue
-#   door opens
-
 # Time
 # time_minutes = 8 * 60  # Start at 8:00 AM  ends 10 PM
 # kidnapper_moving = FALSE  
@@ -45,5 +47,43 @@
 #     mins = time_minutes % 60  
 #     PRINT "Current Time: hours:mins AM/PM"  
 
-# Health
-# 
+# FUNCTION advance_time(minutes):  
+#     time_minutes += minutes  
+#     IF time_minutes >= 21*60 + 45 AND kidnapper_moving == FALSE:  
+#         PRINT "The kidnapper has started moving (9:45 PM)!"  
+#         kidnapper_moving = TRUE  
+#     IF kidnapper_moving == TRUE:  
+#         CALL move_kidnapper()  
+#     IF time_minutes >= 22*60:  
+#         PRINT "It is 10 PM! Emma was not rescued in time!"  
+#         GAME OVER  
+
+# CLUE SYSTEM  
+# FUNCTION add_clue(clue):  
+#     IF clue NOT IN clues_found:  
+#         ADD clue TO clues_found  
+#         PRINT "New clue added: (clue)"  
+
+# FUNCTION reveal_hidden_clue(clue):  
+#     IF "Magnifying Glass" IN inventory OR player["observation"] >= 12:  
+#         add_clue(clue)  
+#     ELSE:  
+#         PRINT "You sense something important… but you miss it."  
+
+# ITEM & DIARY SYSTEM  
+# FUNCTION pick_up(item):  
+#     IF item NOT IN inventory:  
+#         ADD item TO inventory  
+#         PRINT "You picked up: item"  
+
+# FUNCTION villain_steal_item():  
+#     IF "Master Key" IN inventory AND RANDOM() < 0.25:  
+#         REMOVE "Master Key" FROM inventory  
+#         key_stolen = TRUE  
+#         PRINT "A thief stole your Master Key!"  
+
+# FUNCTION read_diary():  
+#     IF "Diary" NOT IN inventory:  
+#         PRINT "You don't have the diary."  
+#         RETURN  
+
