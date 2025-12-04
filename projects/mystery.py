@@ -1,4 +1,5 @@
 # LV 2nd Mystery Game
+
 # IMPORTS & INITIAL SETUP  
 # Import random for randomness in rooms, clues, villains  
 # RANDOM(min, max) → returns integer  
@@ -163,5 +164,173 @@
 #         PRINT "Books look recently moved…"  
 #         add_clue("Someone searched this room today.")  
 
+# Kitchen same thing with all the rooms only slight changes like 
+#
+#  PRINT "You enter the Kitchen."  
+#     advance_time(30)  
+#     IF RANDOM() < 0.4:  
+#         combat(5)  
+#     Else:
+#         reveal_hidden_clue("Food crumbs show kidnapper path.")  
 
 
+
+# FUNCTION hallway():  
+#     PRINT "You enter the Hallway."  
+#     advance_time(30)  
+#     add_clue("Footsteps lead toward a compound wing.")  
+#     IF player["observation"] >= 12:  
+#         reveal_hidden_clue("Some footsteps are heavier → villain?")  
+
+
+# FUNCTION basement():  
+#     PRINT "You enter the Basement."  
+#     advance_time(30)  
+#     IF RANDOM() < 0.5:  
+#         combat(8)  
+#     ELSE:  
+#         pick_up("Magnifying Glass")  
+
+
+# FUNCTION training_room():  
+#     PRINT "You enter the Training Room."  
+#     advance_time(30)  
+#     player["strength_health"] += 10  
+#     PRINT "StrengthHealth increased by 10!"  
+
+
+# FUNCTION puzzle_room():  
+#     PRINT "You enter the Puzzle Room."  
+#     advance_time(30)  
+#     IF player["logic"] < 12:  
+#         PRINT "The puzzle confuses you… you waste extra time."  
+#         advance_time(20)  
+#     ELSE:  
+#         add_clue("Puzzle reveals false wings have more traps.")  
+#     player["logic"] += 2  
+#     PRINT "Logic increased!"  
+
+
+# FUNCTION camera_room():  
+#     PRINT "You enter the Camera Room."  
+#     advance_time(30)  
+#     camera_clue = TRUE  
+#     add_clue("Camera shows kidnapper was near one wing earlier.")  
+
+
+# COMPOUND WINGS (MAIN + SUB-ROOM SYSTEM)  
+
+
+# FUNCTION west_wing():  
+#     PRINT "Entering West Wing."  
+#     advance_time(30)  
+#     check_if_catch_kidnapper("West Wing (Compound)")  
+#     IF RANDOM() < 0.4:  
+#         combat(10)  
+#     PRINT "Choose a sub-room:"  
+#     PRINT west wing sub-rooms  
+#     GET choice → subroom  
+#     CALL handle_subroom("West Wing", subroom)  
+
+
+# FUNCTION east_wing():  
+#     PRINT "Entering East Wing."  
+#     advance_time(30)  
+#     check_if_catch_kidnapper("East Wing (Compound)")  
+#     IF RANDOM() < 0.4:  
+#         combat(10)  
+#     PRINT "Choose a sub-room:"  
+#     PRINT east wing sub-rooms  
+#     GET choice → subroom  
+#     CALL handle_subroom("East Wing", subroom)  
+
+
+# SUB-ROOM HANDLER  
+# FUNCTION handle_subroom(wing, subroom):  
+#     IF subroom == "Locked Door":  
+#         IF use_master_key(subroom) == TRUE:  
+#             IF emma_room == wing:  
+#                 PRINT "You found Emma! You rescue her!"  
+#                 YOU WIN  
+#             ELSE IF kidnapper_room == wing:  
+#                 CALL kidnapper_encounter(caught=FALSE)  
+#             ELSE:  
+#                 PRINT "Empty room…"  
+#         RETURN  
+
+#     IF subroom == "Trap Room":  
+#         PRINT "A trap triggers!"  
+#         trap_dmg = RANDOM(5,15) - (player["observation"] // 5)  
+#         player["strength_health"] -= trap_dmg  
+#         PRINT "You take trap_dmg damage."  
+#         IF player["strength_health"] <= 0: GAME OVER  
+#         RETURN  
+
+#     IF subroom == "Decoy Room" OR subroom == "Fake Passage":  
+#         PRINT "This room is a trick!"  
+#         add_clue("This wing contains decoys.")  
+#         advance_time(10)  
+#         RETURN  
+
+#     IF RANDOM() < 0.3:  
+#         combat(7)  
+
+#     reveal_hidden_clue("Strange marks hint at correct wing.")  
+
+# FINAL KIDNAPPER ENCOUNTER  
+# FUNCTION kidnapper_encounter(caught):  
+#     PRINT "You confront the kidnapper!"  
+#     auto_win = FALSE  
+
+#     IF caught == TRUE:  
+#         PRINT "You caught him during his murder attempt!"  
+#         auto_win = TRUE  
+
+#     IF camera_clue == TRUE:  
+#         PRINT "Camera evidence disrupts his tricks."  
+#         auto_win = TRUE  
+
+#     IF player["logic"] >= 14 OR player["intelligence"] >= 14:  
+#         PRINT "Your mind resists his illusion maze."  
+#         auto_win = TRUE  
+
+#     IF auto_win == TRUE:  
+#         PRINT "Kidnapper defeated psychologically!"  
+#         PRINT "He reveals Emma’s location!"  
+#         YOU WIN  
+
+#     PRINT "The kidnapper drags you into a maze of riddles…"  
+#     advance_time(20)  
+#     IF time_minutes >= 22*60:  
+#         PRINT "You ran out of time!"  
+#         GAME OVER  
+
+#     IF RANDOM() < 0.3:  
+#         PRINT "You solve the riddle by luck!"  
+#         YOU WIN  
+
+#     PRINT "You fail the maze… the kidnapper escapes."  
+#     GAME OVER  
+
+# MAIN GAME LOOP  
+# PRINT "WELCOME TO MYSTERY MANSION!"  
+# PRINT "Find Emma before 10 PM!"  
+
+# WHILE TRUE:  
+#     show_time()  
+#     PRINT ROOMS  
+#     GET user choice  
+#     VALIDATE input  
+#     selected_room = ROOMS[choice - 1]  
+
+#     IF selected_room == "Library": library()  
+#     IF selected_room == "Kitchen": kitchen()  
+#     IF selected_room == "Hallway": hallway()  
+#     IF selected_room == "Basement": basement()  
+#     IF selected_room == "Training Room": training_room()  
+#     IF selected_room == "Puzzle Room": puzzle_room()  
+#     IF selected_room == "Camera Room": camera_room()  
+#     IF selected_room == "West Wing (Compound)": west_wing()  
+#     IF selected_room == "East Wing (Compound)": east_wing()  
+
+# END LOOP  
