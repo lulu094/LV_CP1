@@ -98,4 +98,70 @@
 #  PRINT "The diary reveals true hints about the wings."  
 #  add_clue("Diary: True wing avoids traps and decoys.")  
 
-#
+#FUNCTION use_master_key(subroom):  
+#     IF "Master Key" NOT IN inventory:  
+#         PRINT "You need the Master Key."  
+#         RETURN FALSE  
+#     IF key_stolen == TRUE:  
+#         PRINT "The Master Key was stolen earlier!"  
+#         RETURN FALSE  
+#     IF diary_misread == TRUE:  
+#         PRINT "You use the Master Key… but misleading clues open a decoy!"  
+#         advance_time(15)  
+#         RETURN FALSE  
+#     PRINT "The Master Key unlocks the door successfully!"  
+#     RETURN TRUE  
+
+# COMBAT SYSTEM  
+# FUNCTION combat(villain_power):  
+#     PRINT "A villain attacks!"  
+#     enemy_health = 20 + villain_power * 2  
+
+#     WHILE TRUE:  
+#         dmg = (player["strength_health"] // 10) + RANDOM(1, 6)  
+#         enemy_health -= dmg  
+#         PRINT "You strike the villain for dmg damage."  
+
+#         IF enemy_health <= 0:  
+#             PRINT "Villain defeated!"  
+#             IF RANDOM() < 0.3:  
+#                 villain_steal_item()  
+#             RETURN TRUE  
+
+#         enemy_dmg = villain_power + RANDOM(1, 5) - (player["intelligence"] // 5)  
+#         player["strength_health"] -= enemy_dmg  
+#         PRINT "Villain hits you for enemy_dmg damage."  
+
+#         IF player["strength_health"] <= 0:  
+#             PRINT "You collapsed… Game Over."  
+#             GAME OVER  
+
+# KIDNAPPER MOVEMENT SYSTEM  
+# FUNCTION move_kidnapper():  
+#     IF time_minutes >= 21*60 + 45 AND time_minutes < 22*60:  
+#         PRINT "You hear distant footsteps… the kidnapper is moving."  
+#         kidnapper_room = RANDOM CHOICE from ROOMS  
+#         IF RANDOM() < 0.2:  
+#             kidnapper_murder_attempt = TRUE  
+#             PRINT "The kidnapper is trying to reach Emma!"  
+
+# FUNCTION check_if_catch_kidnapper(room):  
+#     IF room == kidnapper_room AND camera_clue == TRUE:  
+#         PRINT "You catch the kidnapper in the act!"  
+#         CALL kidnapper_encounter(caught=TRUE)  
+
+# ROOM FUNCTIONS (9 ROOMS)  
+# FUNCTION library():  
+#     PRINT "You enter the Library."  
+#     advance_time(30)  
+#     IF RANDOM() < 0.4:  
+#         pick_up("Diary")  
+#         read_diary()  
+#     IF time_minutes < 12*60:  
+#         reveal_hidden_clue("Early morning dust pattern → wing direction")  
+#     ELSE:  
+#         PRINT "Books look recently moved…"  
+#         add_clue("Someone searched this room today.")  
+
+
+
