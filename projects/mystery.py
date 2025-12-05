@@ -1,7 +1,7 @@
 # LV 2nd Mystery Game
 
 # IMPORTS & INITIAL SETUP  
-# Import random for randomness in rooms, clues, villains  
+# Import random for rooms, clues, villains  
 # RANDOM(min, max) → returns integer  
 # RANDOM() < 0.5 → 50% chance  
 
@@ -150,6 +150,65 @@
 #     IF room == kidnapper_room AND camera_clue == TRUE:  
 #         PRINT "You catch the kidnapper in the act!"  
 #         CALL kidnapper_encounter(caught=TRUE)  
+
+# 1. OBSERVATION STAT INCREASE SYSTEM
+#FUNCTION observatory():
+#    PRINT "You enter the Observatory."
+#    advance_time(30)
+#    player["observation"] += 2
+#    PRINT "Your Observation increases by 2!"
+#    reveal_hidden_clue("Star charts match markings in one compound wing.")
+
+# Optional small Observation improvement:
+# Add inside camera_room():
+# player["observation"] += 1
+# PRINT "Observation slightly increased from analyzing the footage."
+
+# 2. VILLAINS GUARDING IMPORTANT ITEMS
+#FUNCTION villain_guard_item(item):
+#    PRINT "A villain blocks your path! He is guarding: ", item
+#    result = combat(7)
+#    IF result == TRUE:
+#        PRINT "You defeat the villain and take:", item
+#       pick_up(item)
+#    ELSE:
+#        PRINT "You fail to obtain the guarded item."
+
+# Example usage inside any room:
+# IF RANDOM() < 0.25:
+#     villain_guard_item("Master Key")
+
+# 3. EMMA ALWAYS BEHIND THE LOCKED DOOR (EXPLICIT SETUP)
+# During setup after choosing emma_room:
+#SET emma_subroom TO "Locked Door"
+
+# 4. TIME-BASED CLUE SYSTEM
+#FUNCTION time_based_clue_system(room_name):
+#   IF time_minutes < 10*60:
+#       add_clue(room_name + " Morning clue: fresh footprints point toward one wing.")
+#    ELSE IF time_minutes < 15*60:
+#        add_clue(room_name + " Afternoon clue: dust recently disturbed.")
+#    ELSE:
+#        add_clue(room_name + " Evening clue: faint lantern smell leads toward correct wing.")
+
+
+# Example call at the end of any room function:
+# time_based_clue_system("Library")
+
+
+# Insert into kidnapper_encounter() before the luck-based maze section:
+#PRINT "Your intelligence cuts through every illusion."
+#    PRINT "The kidnapper reveals Emma’s location."
+#    YOU WIN
+
+#IF player["logic"] >= 14:
+#    PRINT "Your logic exposes the kidnapper’s tricks."
+#    PRINT "The illusion maze collapses."
+#    YOU WIN
+
+# Only if neither logic nor intelligence is high enough:
+# continue to the existing random maze-solve chance.
+
 
 # ROOM FUNCTIONS (9 ROOMS)  
 # FUNCTION library():  
