@@ -1,12 +1,10 @@
 # LV 2nd Mystery Game
 
 # IMPORTS & INITIAL SETUP  
+import random
 # Import random for rooms, clues, villains  
 # RANDOM(min, max) → returns integer  
 # RANDOM() < 0.5 → 50% chance  
-
-# Introduce the player to the game
-# print "Welcome to ... This are the rules .... and goals..."
 
 # List of rooms
 # ["Library", "Kitchen", "Hallway", "Basement",  
@@ -16,7 +14,12 @@
 # West wing sub-rooms:  
 # ["Storage", "Armory", "Hidden Closet", "Locked Door", "Trap Room", "Fake Passage"] 
 # East Wing
-# ["Vent Room", "Secret Office", "Decoy Room", "Locked Door", "Trap Room", "Hidden Chamber"]  
+# ["Vent Room", "Secret Office", "Decoy Room", "Locked Door", "Trap Room", "Hidden Chamber"] 
+rooms = {
+    "Library", "Kitchen", "Hallway", "Basement",  
+  "Training Room", "Puzzle Room", "Camera Room",  
+  "West Wing (Compound)", "East Wing (Compound)"
+} 
 
 # Start spot for characters
 # SET emma_room TO RANDOM CHOICE between the two compound rooms  
@@ -32,18 +35,31 @@
 # player["logic"] = 10  
 # player["intelligence"] = 10  
 # player["observation"] = 10  
-
+player_stats = {
+    "strength_health" = 100,
+    "logic" = 10,
+    "intelligence" = 10,
+    "observation" = 10
+}
 # Inventory and Clues
 # inventory = []  
 # clues_found = []  as the game goes the player will take clues
 # camera_clue = FALSE  
 # key_stolen = FALSE  
 # diary_misread = FALSE 
+inventory = []
+clues_found = []
+camera_clue = False
+key_stolen = False
+diary_misread = False
 
 # Time
 # time_minutes = 8 * 60  # Start at 8:00 AM  ends 10 PM
 # kidnapper_moving = FALSE  
 # kidnapper_murder_attempt = FALSE   
+time_minutes = 8*60
+kidnapper_moving = False
+kidnapper_murder_attempt = False
 
 # Utility
 # FUNCTION show_time():  
@@ -372,8 +388,10 @@
 #     GAME OVER  
 
 # MAIN GAME LOOP  
-# PRINT "WELCOME TO MYSTERY MANSION!"  
+# PRINT "WELCOME TO MYSTERY MANSION!"
+print("Welcome to the .... You are a detective and have to find Emma before 10:00 p.m. You will get the opportunity to visit each room in the mansion")  
 # PRINT "Find Emma before 10 PM!"  
+print("Save Emma because he is gentle man, and he is screaming for help?")
 
 # WHILE TRUE:  
 #     show_time()  
