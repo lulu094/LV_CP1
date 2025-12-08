@@ -29,14 +29,15 @@ rooms = {
 #     kidnapper_room = "West Wing (Compound)" 
 # KIDNAPPER SUB-ROOM: RANDOM CHOICE in possible sub-rooms  
 # EMMA SUB-ROOM: ALWAYS behind Locked Door  
-"""compound_rooms = ["West Wing (Compound)", "East Wing (Compound)"]
+compound_rooms = ["West Wing (Compound)", "East Wing (Compound)"]
 emma_room = random.choice(compound_rooms)
-kidnapper_room = (
-    "East Wing (Compound)" if emma_room == "West Wing (Compound)" 
-    else "West Wing (Compound)"
+kidnapper_room = 
+    ("East Wing (Compound)" 
+    if emma_room == "West Wing (Compound)" 
+    else "West Wing (Compound)")
 kidnapper_subrooms = ["Storage", "Boiler Room", "Hallway", "Guard Post"]
 kidnapper_subroom = random.choice(kidnapper_subrooms)
-emma_subroom = "Locked Door""""
+emma_subroom = "Locked Door"
 # Player dictionary  
 # player["strength_health"] = 100  
 # player["logic"] = 10  
@@ -73,10 +74,19 @@ kidnapper_murder_attempt = False
 #     hours = time_minutes // 60  
 #     mins = time_minutes % 60  
 #     PRINT "Current Time: hours:mins AM/PM"  
-"""def show_time(time_minutes):
-    hours = time_minutes // 60
-    mins = time_minutes % 60
+def show_time(time_minutes):
+    hours = time_minutes //60
+    mins = time_minutes %60
+    period = "AM"
+    if hours >= 12:
+        period = "PM"
+    if hours >= 12:
+        
+        
+        
 
+
+""""
     period = "AM"
     if hours >= 12:
         period = "PM"
