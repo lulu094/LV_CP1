@@ -29,7 +29,14 @@ rooms = {
 #     kidnapper_room = "West Wing (Compound)" 
 # KIDNAPPER SUB-ROOM: RANDOM CHOICE in possible sub-rooms  
 # EMMA SUB-ROOM: ALWAYS behind Locked Door  
-
+"""compound_rooms = ["West Wing (Compound)", "East Wing (Compound)"]
+emma_room = random.choice(compound_rooms)
+kidnapper_room = (
+    "East Wing (Compound)" if emma_room == "West Wing (Compound)" 
+    else "West Wing (Compound)"
+kidnapper_subrooms = ["Storage", "Boiler Room", "Hallway", "Guard Post"]
+kidnapper_subroom = random.choice(kidnapper_subrooms)
+emma_subroom = "Locked Door""""
 # Player dictionary  
 # player["strength_health"] = 100  
 # player["logic"] = 10  
@@ -66,7 +73,19 @@ kidnapper_murder_attempt = False
 #     hours = time_minutes // 60  
 #     mins = time_minutes % 60  
 #     PRINT "Current Time: hours:mins AM/PM"  
+"""def show_time(time_minutes):
+    hours = time_minutes // 60
+    mins = time_minutes % 60
 
+    period = "AM"
+    if hours >= 12:
+        period = "PM"
+    hours = hours % 12
+    if hours == 0:
+        hours = 12
+
+    print(f"Current Time: {hours}:{mins:02d} {period}")
+    """
 # FUNCTION advance_time(minutes):  
 #     time_minutes += minutes  
 #     IF time_minutes >= 21*60 + 45 AND kidnapper_moving == FALSE:  
@@ -77,7 +96,25 @@ kidnapper_murder_attempt = False
 #     IF time_minutes >= 22*60:  
 #         PRINT "It is 10 PM! Emma was not rescued in time!"  
 #         GAME OVER  
+"""def advance_time(time_minutes, kidnapper_moving, minutes_to_advance):
+    time_minutes += minutes_to_advance
+    show_time(time_minutes)
 
+    if time_minutes >= (21*60 + 45) and not kidnapper_moving:
+        print("The kidnapper has started moving (9:45 PM)!")
+        kidnapper_moving = True
+
+    if kidnapper_moving:
+        move_kidnapper()
+
+    game_over = False
+    if time_minutes >= 22*60:
+        print("It is 10 PM! Emma was not rescued in time!")
+        print("GAME OVER")
+        game_over = True
+
+    return time_minutes, kidnapper_moving, game_over
+"""
 # CLUE SYSTEM  
 # FUNCTION add_clue(clue):  
 #     IF clue NOT IN clues_found:  
@@ -389,7 +426,7 @@ kidnapper_murder_attempt = False
 
 # MAIN GAME LOOP  
 # PRINT "WELCOME TO MYSTERY MANSION!"
-print("Welcome to the .... You are a detective and have to find Emma before 10:00 p.m. You will get the opportunity to visit each room in the mansion")  
+print("Welcome to Mystery Mansion. You are a detective and have to find Emma before 10:00 p.m. You will get the opportunity to visit each room in the mansion")  
 # PRINT "Find Emma before 10 PM!"  
 print("Save Emma because he is gentle man, and he is screaming for help?")
 
