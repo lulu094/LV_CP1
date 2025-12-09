@@ -15,12 +15,11 @@ import random
 # ["Storage", "Armory", "Hidden Closet", "Locked Door", "Trap Room", "Fake Passage"] 
 # East Wing
 # ["Vent Room", "Secret Office", "Decoy Room", "Locked Door", "Trap Room", "Hidden Chamber"] 
-rooms = {
-    "Library", "Kitchen", "Hallway", "Basement",  
-  "Training Room", "Puzzle Room", "Camera Room",  
-  "West Wing (Compound)", "East Wing (Compound)"
-} 
-
+rooms = [
+    "Library", "Kitchen", "Hallway", "Basement",
+    "Training Room", "Puzzle Room", "Camera Room",
+    "West Wing (Compound)", "East Wing (Compound)"
+]
 # Start spot for characters
 # SET emma_room TO RANDOM CHOICE between the two compound rooms  
 # IF emma_room == "West Wing (Compound)":  
@@ -31,23 +30,26 @@ rooms = {
 # EMMA SUB-ROOM: ALWAYS behind Locked Door  
 compound_rooms = ["West Wing (Compound)", "East Wing (Compound)"]
 emma_room = random.choice(compound_rooms)
-kidnapper_room = 
-    ("East Wing (Compound)" 
-    if emma_room == "West Wing (Compound)" 
-    else "West Wing (Compound)")
+kidnapper_room = (
+    "East Wing (Compound)"
+    if emma_room == "West Wing (Compound)"
+    else "West Wing (Compound)"
+)
+
 kidnapper_subrooms = ["Storage", "Boiler Room", "Hallway", "Guard Post"]
 kidnapper_subroom = random.choice(kidnapper_subrooms)
 emma_subroom = "Locked Door"
+
 # Player dictionary  
 # player["strength_health"] = 100  
 # player["logic"] = 10  
 # player["intelligence"] = 10  
 # player["observation"] = 10  
 player_stats = {
-    "strength_health" = 100,
-    "logic" = 10,
-    "intelligence" = 10,
-    "observation" = 10
+    "strength_health": 100,
+    "logic": 10,
+    "intelligence": 10,
+    "observation": 10
 }
 # Inventory and Clues
 # inventory = []  
@@ -65,7 +67,7 @@ diary_misread = False
 # time_minutes = 8 * 60  # Start at 8:00 AM  ends 10 PM
 # kidnapper_moving = FALSE  
 # kidnapper_murder_attempt = FALSE   
-time_minutes = 8*60
+time_minutes = 8 * 60
 kidnapper_moving = False
 kidnapper_murder_attempt = False
 
@@ -75,18 +77,9 @@ kidnapper_murder_attempt = False
 #     mins = time_minutes % 60  
 #     PRINT "Current Time: hours:mins AM/PM"  
 def show_time(time_minutes):
-    hours = time_minutes //60
-    mins = time_minutes %60
-    period = "AM"
-    if hours >= 12:
-        period = "PM"
-    if hours >= 12:
-        
-        
-        
+    hours = time_minutes // 60
+    mins = time_minutes % 60
 
-
-""""
     period = "AM"
     if hours >= 12:
         period = "PM"
@@ -95,7 +88,7 @@ def show_time(time_minutes):
         hours = 12
 
     print(f"Current Time: {hours}:{mins:02d} {period}")
-    """
+
 # FUNCTION advance_time(minutes):  
 #     time_minutes += minutes  
 #     IF time_minutes >= 21*60 + 45 AND kidnapper_moving == FALSE:  
@@ -106,7 +99,10 @@ def show_time(time_minutes):
 #     IF time_minutes >= 22*60:  
 #         PRINT "It is 10 PM! Emma was not rescued in time!"  
 #         GAME OVER  
-"""def advance_time(time_minutes, kidnapper_moving, minutes_to_advance):
+def move_kidnapper():
+    print("The kidnapper moves to a new location...")
+
+def advance_time(time_minutes, kidnapper_moving, minutes_to_advance):
     time_minutes += minutes_to_advance
     show_time(time_minutes)
 
@@ -118,42 +114,58 @@ def show_time(time_minutes):
         move_kidnapper()
 
     game_over = False
-    if time_minutes >= 22*60:
+    if time_minutes >= 22 * 60:
         print("It is 10 PM! Emma was not rescued in time!")
         print("GAME OVER")
         game_over = True
 
     return time_minutes, kidnapper_moving, game_over
-"""
 # CLUE SYSTEM  
 # FUNCTION add_clue(clue):  
 #     IF clue NOT IN clues_found:  
 #         ADD clue TO clues_found  
-#         PRINT "New clue added: (clue)"  
+#         PRINT "New clue added: (clue)" 
+"""    if clue not in clues_found:
+        clues_found.append(clue)
+        print(f"New clue added: {clue}")""" 
 
 # FUNCTION reveal_hidden_clue(clue):  
 #     IF "Magnifying Glass" IN inventory OR player["observation"] >= 12:  
 #         add_clue(clue)  
 #     ELSE:  
 #         PRINT "You sense something important… but you miss it."  
-
+"""def reveal_hidden_clu(clue):
+    if "Magnifying Glass" in inventory or player_stats["observation"] >= 12:
+        add_clue(clue)
+    else:
+        print("You sense something important… but you miss it.")
+"""
 # ITEM & DIARY SYSTEM  
 # FUNCTION pick_up(item):  
 #     IF item NOT IN inventory:  
 #         ADD item TO inventory  
 #         PRINT "You picked up: item"  
-
+"""def pick_up(item):
+    if item not in inventory:
+        inventory.append(item)
+        print(f"You picked up: {item}")
+    else:
+        print("You already have this item.")"""
 # FUNCTION villain_steal_item():  
 #     IF "Master Key" IN inventory AND RANDOM() < 0.25:  
 #         REMOVE "Master Key" FROM inventory  
 #         key_stolen = TRUE  
 #         PRINT "A thief stole your Master Key!"  
-
+"""def villain_steal_item(inventory, key_stolen):
+    if "Master Key" in inventory and random.random() < 0.25:
+        inventory.remove("Master Key")
+        key_stolen = True
+        print("A thief stole your Master Key!")
+    return inventory, key_stolen"""
 # FUNCTION read_diary():  
 #     IF "Diary" NOT IN inventory:  
 #         PRINT "You don't have the diary."  
 #         RETURN  
-
 # If player(logic) < if or player ("observation") or if:
 #    print "You misread the diary… it gives false directions!"
 #    diary_misread = True
@@ -161,7 +173,20 @@ def show_time(time_minutes):
 # else
 #  PRINT "The diary reveals true hints about the wings."  
 #  add_clue("Diary: True wing avoids traps and decoys.")  
+"""def read_diary(inventory, player_stats, diary_misread, clues_found):
+    if "Diary" not in inventory:
+        print("You don't have the diary.")
+        return diary_misread, clues_found
 
+    if player_stats["logic"] < 12 or player_stats["observation"] < 12:
+        print("You misread the diary… it gives false directions!")
+        diary_misread = True
+    else:
+        print("The diary reveals true hints about the wings.")
+        add_clue("Diary: True wing avoids traps and decoys()")  # assumes add_clue updates clues_found locally
+
+    return diary_misread, clues_found
+"""
 #FUNCTION use_master_key(subroom):  
 #     IF "Master Key" NOT IN inventory:  
 #         PRINT "You need the Master Key."  
@@ -175,7 +200,20 @@ def show_time(time_minutes):
 #         RETURN FALSE  
 #     PRINT "The Master Key unlocks the door successfully!"  
 #     RETURN TRUE  
+"""def use_master_key(subroom, inventory, key_stolen, diary_misread, time_minutes, kidnapper_moving):
+    if "Master Key" not in inventory:
+        print("You need the Master Key.")
+        return False, time_minutes, kidnapper_moving
+    if key_stolen:
+        print("The Master Key was stolen earlier!")
+        return False, time_minutes, kidnapper_moving
+    if diary_misread:
+        print("You use the Master Key… but misleading clues open a decoy!")
+        time_minutes, kidnapper_moving, _ = advance_time(time_minutes, kidnapper_moving, 15)
+        return False, time_minutes, kidnapper_moving
 
+    print("The Master Key unlocks the door successfully!")
+    return True, time_minutes, kidnapper_moving"""
 # COMBAT SYSTEM  
 # FUNCTION combat(villain_power):  
 #     PRINT "A villain attacks!"  
