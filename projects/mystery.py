@@ -125,43 +125,43 @@ def advance_time(time_minutes, kidnapper_moving, minutes_to_advance):
 #     IF clue NOT IN clues_found:  
 #         ADD clue TO clues_found  
 #         PRINT "New clue added: (clue)" 
-"""    if clue not in clues_found:
-        clues_found.append(clue)
-        print(f"New clue added: {clue}")""" 
+if clue not in clues_found:
+    clues_found.append(clue)
+    print(f"New clue added: {clue}")
 
 # FUNCTION reveal_hidden_clue(clue):  
 #     IF "Magnifying Glass" IN inventory OR player["observation"] >= 12:  
 #         add_clue(clue)  
 #     ELSE:  
 #         PRINT "You sense something important… but you miss it."  
-"""def reveal_hidden_clu(clue):
-    if "Magnifying Glass" in inventory or player_stats["observation"] >= 12:
+def reveal_hidden_clu(clue):
+    if "Magnifying Glass" in inventory or player["observation"] >=12:
         add_clue(clue)
     else:
-        print("You sense something important… but you miss it.")
-"""
+        print("You sense something important... but you miss it.")
+
 # ITEM & DIARY SYSTEM  
 # FUNCTION pick_up(item):  
 #     IF item NOT IN inventory:  
 #         ADD item TO inventory  
-#         PRINT "You picked up: item"  
-"""def pick_up(item):
+#         PRINT "You picked up: item" 
+def pick_up(item):
     if item not in inventory:
         inventory.append(item)
-        print(f"You picked up: {item}")
-    else:
-        print("You already have this item.")"""
+        print("You already have this item")
+
 # FUNCTION villain_steal_item():  
 #     IF "Master Key" IN inventory AND RANDOM() < 0.25:  
 #         REMOVE "Master Key" FROM inventory  
 #         key_stolen = TRUE  
 #         PRINT "A thief stole your Master Key!"  
-"""def villain_steal_item(inventory, key_stolen):
-    if "Master Key" in inventory and random.random() < 0.25:
-        inventory.remove("Master Key")
+
+def villain_steal_item():
+    if "Master Key" in inventory and random()< 0.25:
+        inventory.pop("Master Key")
         key_stolen = True
         print("A thief stole your Master Key!")
-    return inventory, key_stolen"""
+
 # FUNCTION read_diary():  
 #     IF "Diary" NOT IN inventory:  
 #         PRINT "You don't have the diary."  
@@ -173,20 +173,18 @@ def advance_time(time_minutes, kidnapper_moving, minutes_to_advance):
 # else
 #  PRINT "The diary reveals true hints about the wings."  
 #  add_clue("Diary: True wing avoids traps and decoys.")  
-"""def read_diary(inventory, player_stats, diary_misread, clues_found):
+def read_diary():
     if "Diary" not in inventory:
-        print("You don't have the diary.")
-        return diary_misread, clues_found
-
+        print("You don't have the diary")
+        return diary_misread, clues_found 
     if player_stats["logic"] < 12 or player_stats["observation"] < 12:
         print("You misread the diary… it gives false directions!")
         diary_misread = True
     else:
         print("The diary reveals true hints about the wings.")
         add_clue("Diary: True wing avoids traps and decoys()")  # assumes add_clue updates clues_found locally
-
     return diary_misread, clues_found
-"""
+
 #FUNCTION use_master_key(subroom):  
 #     IF "Master Key" NOT IN inventory:  
 #         PRINT "You need the Master Key."  
@@ -200,7 +198,7 @@ def advance_time(time_minutes, kidnapper_moving, minutes_to_advance):
 #         RETURN FALSE  
 #     PRINT "The Master Key unlocks the door successfully!"  
 #     RETURN TRUE  
-"""def use_master_key(subroom, inventory, key_stolen, diary_misread, time_minutes, kidnapper_moving):
+def use_master_key(subroom, inventory, key_stolen, diary_misread, time_minutes, kidnapper_moving):
     if "Master Key" not in inventory:
         print("You need the Master Key.")
         return False, time_minutes, kidnapper_moving
@@ -213,8 +211,8 @@ def advance_time(time_minutes, kidnapper_moving, minutes_to_advance):
         return False, time_minutes, kidnapper_moving
 
     print("The Master Key unlocks the door successfully!")
-    return True, time_minutes, kidnapper_moving"""
-# COMBAT SYSTEM  
+    return True, time_minutes, kidnapper_moving
+
 # FUNCTION combat(villain_power):  
 #     PRINT "A villain attacks!"  
 #     enemy_health = 20 + villain_power * 2  
@@ -476,7 +474,7 @@ def advance_time(time_minutes, kidnapper_moving, minutes_to_advance):
 # PRINT "WELCOME TO MYSTERY MANSION!"
 print("Welcome to Mystery Mansion. You are a detective and have to find Emma before 10:00 p.m. You will get the opportunity to visit each room in the mansion")  
 # PRINT "Find Emma before 10 PM!"  
-print("Save Emma because he is gentle man, and he is screaming for help?")
+print("Save Emma because he is a gentle man, and he is screaming for help?")
 
 # WHILE TRUE:  
 #     show_time()  
