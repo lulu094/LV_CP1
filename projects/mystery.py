@@ -243,12 +243,9 @@ def use_master_key(subroom, inventory, key_stolen, diary_misread, time_minutes, 
 #         IF player["strength_health"] <= 0:  
 #             PRINT "You collapsed… Game Over."  
 #             GAME OVER  
-
-
-
-"""def combat(villain_power, player_stats, inventory, key_stolen):
+def combat(villain_power, player_stats, inventory, key_stolen):
     print("A villain attacks!")
-    enemy_health = 20 + villain_power * 2
+    enemy_health = 20 + villain_power *2
 
     while True:
         # Player attacks
@@ -270,7 +267,7 @@ def use_master_key(subroom, inventory, key_stolen, diary_misread, time_minutes, 
 
         if player_stats["strength_health"] <= 0:
             print("You collapsed… Game Over.")
-            return False, player_stats, inventory, key_stolen"""
+            return False, player_stats, inventory, key_stolen
 
 # KIDNAPPER MOVEMENT SYSTEM  
 # FUNCTION move_kidnapper():  
@@ -280,11 +277,7 @@ def use_master_key(subroom, inventory, key_stolen, diary_misread, time_minutes, 
 #         IF RANDOM() < 0.2:  
 #             kidnapper_murder_attempt = TRUE  
 #             PRINT "The kidnapper is trying to reach Emma!"  
-
-
-
-"""def move_kidnapper(time_minutes, kidnapper_room, kidnapper_murder_attempt, rooms):
-    # Only move if it's between 9:45 PM and 10 PM
+def move_kidnapper(time_minutes, kidnapper_room, kidnapper_murder_attempt, rooms):
     if 21*60 + 45 <= time_minutes < 22*60:
         print("You hear distant footsteps… the kidnapper is moving.")
         # Kidnapper chooses a random room to move to
@@ -294,12 +287,13 @@ def use_master_key(subroom, inventory, key_stolen, diary_misread, time_minutes, 
             kidnapper_murder_attempt = True
             print("The kidnapper is trying to reach Emma!")
 
-    return kidnapper_room, kidnapper_murder_attempt"""
+    return kidnapper_room, kidnapper_murder_attempt
 
 # FUNCTION check_if_catch_kidnapper(room):  
 #     IF room == kidnapper_room AND camera_clue == TRUE:  
 #         PRINT "You catch the kidnapper in the act!"  
 #         CALL kidnapper_encounter(caught=TRUE)  
+def check_if_catch_kidnapper(player_room, )
 
 
 
