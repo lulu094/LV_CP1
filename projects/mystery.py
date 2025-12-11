@@ -206,7 +206,7 @@ def read_diary(inventory, player_stats, diary_misread, clues_found):
 #         RETURN FALSE  
 #     PRINT "The Master Key unlocks the door successfully!"  
 #     RETURN TRUE  
-def use_master_key(subroom, inventory, key_stolen, diary_misread, time_minutes, kidnapper_moving):
+def use_master_key(inventory, key_stolen, diary_misread, time_minutes, kidnapper_moving):
     if "Master Key" not in inventory:
         print("You need the Master Key.")
         return False, time_minutes, kidnapper_moving
@@ -248,19 +248,16 @@ def combat(villain_power, player_stats, inventory, key_stolen):
     enemy_health = 20 + villain_power *2
 
     while True:
-        # Player attacks
         dmg = (player_stats["strength_health"] // 10) + random.randint(1, 6)
         enemy_health -= dmg
         print(f"You strike the villain for {dmg} damage.")
 
         if enemy_health <= 0:
             print("Villain defeated!")
-            # Chance the villain steals the Master Key
             if "Master Key" in inventory and random.random() < 0.3:
                 inventory, key_stolen = villain_steal_item(inventory, key_stolen)
             return True, player_stats, inventory, key_stolen
 
-        # Villain attacks
         enemy_dmg = villain_power + random.randint(1, 5) - (player_stats["intelligence"] // 5)
         player_stats["strength_health"] -= enemy_dmg
         print(f"Villain hits you for {enemy_dmg} damage.")
@@ -280,9 +277,7 @@ def combat(villain_power, player_stats, inventory, key_stolen):
 def move_kidnapper(time_minutes, kidnapper_room, kidnapper_murder_attempt, rooms):
     if 21*60 + 45 <= time_minutes < 22*60:
         print("You hear distant footsteps… the kidnapper is moving.")
-        # Kidnapper chooses a random room to move to
         kidnapper_room = random.choice(rooms)
-        # Small chance kidnapper attempts murder
         if random.random() < 0.2:
             kidnapper_murder_attempt = True
             print("The kidnapper is trying to reach Emma!")
@@ -293,16 +288,11 @@ def move_kidnapper(time_minutes, kidnapper_room, kidnapper_murder_attempt, rooms
 #     IF room == kidnapper_room AND camera_clue == TRUE:  
 #         PRINT "You catch the kidnapper in the act!"  
 #         CALL kidnapper_encounter(caught=TRUE)  
-def check_if_catch_kidnapper(player_room, )
-
-
-
-"""def check_if_catch_kidnapper(player_room, kidnapper_room, camera_clue, time_minutes, player_stats, inventory, clues_found):
+def check_if_catch_kidnapper(player_room, kidnapper_room, camera_clue, time_minutes, player_stats, inventory, clues_found):
     if player_room == kidnapper_room and camera_clue:
         print("You catch the kidnapper in the act!")
-        # Call the kidnapper encounter function with caught=True
         kidnapper_encounter(caught=True, time_minutes=time_minutes, player_stats=player_stats,
-                            inventory=inventory, clues_found=clues_found)"""
+                            inventory=inventory, clues_found=clues_found)
 # 1. OBSERVATION STAT INCREASE SYSTEM
 #FUNCTION observatory():
 #    PRINT "You enter the Observatory."
@@ -310,49 +300,37 @@ def check_if_catch_kidnapper(player_room, )
 #    player["observation"] += 2
 #    PRINT "Your Observation increases by 2!"
 #    reveal_hidden_clue("Star charts match markings in one compound wing.")
-
-
-
-"""def observatory(time_minutes, player_stats, inventory, clues_found):
+def observatory(time_minutes, player_stats, inventory, clues_found):
     print("You enter the Observatory. Telescopes and star charts surround you.")
     
-    # Advance time locally
     time_minutes, _, _ = advance_time(time_minutes, False, 30)  
 
-    # Increase observation
     player_stats["observation"] += 2
     print("Your Observation increases by 2!")
 
-    # Reveal a hidden clue
     clues_found = reveal_hidden_clue(
         "Star charts match markings in one compound wing.",
         inventory, player_stats, clues_found
     )
 
     return time_minutes, player_stats, clues_found
-"""
 
 # Optional small Observation improvement:
 # Add inside camera_room():
 # player["observation"] += 1
 # PRINT "Observation slightly increased from analyzing the footage."
-
-
-
-"""def camera_room(time_minutes, player_stats, inventory, clues_found):
+def camera_room(time_minutes, player_stats, inventory, clues_found):
     print("You enter the Camera Room.")
-    # Advance time locally
     time_minutes, _, _ = advance_time(time_minutes, False, 30)
 
-    # Set camera clue
+  
     camera_clue = True
     clues_found = add_clue("Camera shows kidnapper was near one wing earlier.", clues_found)
 
-    # Optional small Observation improvement
     player_stats["observation"] += 1
     print("Observation slightly increased from analyzing the footage.")
 
-    return time_minutes, player_stats, clues_found, camera_clue"""
+    return time_minutes, player_stats, clues_found, camera_clue
 # 2. VILLAINS GUARDING IMPORTANT ITEMS
 #FUNCTION villain_guard_item(item):
 #    PRINT "A villain blocks your path! He is guarding: ", item
@@ -362,14 +340,9 @@ def check_if_catch_kidnapper(player_room, )
 #       pick_up(item)
 #    ELSE:
 #        PRINT "You fail to obtain the guarded item."
-
-
-
-
-"""def villain_guard_item(item, player_stats, inventory, clues_found):
+def villain_guard_item(item, player_stats, inventory, clues_found):
     print(f"A villain blocks your path! He is guarding: {item}")
     
-    # Call combat with villain power 7
     result, player_stats = combat(7, player_stats)
     
     if result:
@@ -378,7 +351,7 @@ def check_if_catch_kidnapper(player_room, )
     else:
         print("You fail to obtain the guarded item.")
     
-    return player_stats, inventory, clues_found"""
+    return player_stats, inventory, clues_found
 # Example usage inside any room:
 # IF RANDOM() < 0.25:
 #     villain_guard_item("Master Key")
@@ -386,20 +359,15 @@ def check_if_catch_kidnapper(player_room, )
 # 3. EMMA ALWAYS BEHIND THE LOCKED DOOR (EXPLICIT SETUP)
 # During setup after choosing emma_room:
 #SET emma_subroom TO "Locked Door"
-
-
-
-"""emma_subroom = "Locked Door""""
-"""emma_room = random.choice(compound_rooms)
+emma_subroom = "Locked Door"
+emma_room = random.choice(compound_rooms)
 kidnapper_room = (
     "East Wing (Compound)"
     if emma_room == "West Wing (Compound)"
     else "West Wing (Compound)"
 )
-
-# Explicitly set Emma's subroom
 emma_subroom = "Locked Door"
-"""
+
 # 4. TIME-BASED CLUE SYSTEM
 #FUNCTION time_based_clue_system(room_name):
 #   IF time_minutes < 10*60:
@@ -408,9 +376,7 @@ emma_subroom = "Locked Door"
 #        add_clue(room_name + " Afternoon clue: dust recently disturbed.")
 #    ELSE:
 #        add_clue(room_name + " Evening clue: faint lantern smell leads toward correct wing.")
-
-
-"""def time_based_clue_system(room_name, time_minutes, clues_found):
+def time_based_clue_system(room_name, time_minutes, clues_found):
     if time_minutes < 10 * 60:
         clues_found = add_clue(f"{room_name} Morning clue: fresh footprints point toward one wing.", clues_found)
     elif time_minutes < 15 * 60:
@@ -419,7 +385,7 @@ emma_subroom = "Locked Door"
         clues_found = add_clue(f"{room_name} Evening clue: faint lantern smell leads toward correct wing.", clues_found)
     
     return clues_found
-"""
+
 # Example call at the end of any room function:
 # time_based_clue_system("Library")
 
@@ -436,22 +402,17 @@ emma_subroom = "Locked Door"
 
 # Only if neither logic nor intelligence is high enough:
 # continue to the existing random maze-solve chance.
-
-
-"""def kidnapper_encounter(caught, player_stats, camera_clue, time_minutes):
+def kidnapper_encounter(caught, player_stats, camera_clue, time_minutes):
     auto_win = False
 
-    # Auto-win if caught or camera clue
     if caught or camera_clue:
         auto_win = True
 
-    # Intelligence check (before luck-based maze)
     if player_stats["intelligence"] >= 14:
         print("Your intelligence cuts through every illusion.")
-        print("The kidnapper reveals Emma’s location!")
+        print("The kidnapper reveals Emmas location!")
         auto_win = True
 
-    # Logic check (alternative auto-win)
     elif player_stats["logic"] >= 14:
         print("Your logic exposes the kidnapper’s tricks.")
         print("The illusion maze collapses.")
@@ -460,19 +421,17 @@ emma_subroom = "Locked Door"
     if auto_win:
         print("Kidnapper defeated psychologically!")
         print("You rescue Emma! YOU WIN")
-        return True  # Game won
+        return True  
 
-    # If neither intelligence nor logic is high enough, continue with luck-based maze
     print("The kidnapper drags you into a maze of riddles…")
-    # Advance time, run random chance, etc.
-    # Example placeholder for random chance
+   
     if random.random() < 0.3:
         print("You solve the riddle by luck! YOU WIN")
         return True
 
     print("You fail the maze… the kidnapper escapes. GAME OVER")
-    return False  # Game lost
-"""
+    return False  
+
 
 # ROOM FUNCTIONS (9 ROOMS)  
 # FUNCTION library():  
@@ -486,30 +445,32 @@ emma_subroom = "Locked Door"
 #     ELSE:  
 #         PRINT "Books look recently moved…"  
 #         add_clue("Someone searched this room today.") 
-
- 
-
- 
-"""def library(time_minutes, player_stats, inventory, clues_found):
+def library(time_minutes, player_stats, inventory, clues_found):
     print("You enter the Library.")
 
-    # Advance time locally
     time_minutes, _, _ = advance_time(time_minutes, False, 30)
 
-    # Random chance to pick up diary
+    diary_misread = False 
+
     if random.random() < 0.4:
         inventory = pick_up("Diary", inventory)
-        diary_misread, clues_found = read_diary(inventory, player_stats, False, clues_found)
+        diary_misread, clues_found = read_diary(
+            inventory, player_stats, False, clues_found
+        )
 
-    # Time-based clues
-    if time_minutes < 12*60:
-        clues_found = reveal_hidden_clue("Early morning dust pattern → wing direction",
-                                         inventory, player_stats, clues_found)
+    if time_minutes < 12 * 60:
+        clues_found = reveal_hidden_clue(
+            "Early morning dust pattern → wing direction",
+            diary_misread, inventory, player_stats, clues_found
+        )
     else:
         print("Books look recently moved…")
-        clues_found = add_clue("Someone searched this room today.", clues_found)
+        clues_found = add_clue(
+            "Someone searched this room today.",
+            clues_found
+        )
 
-    return time_minutes, player_stats, inventory, clues_found"""
+    return time_minutes, player_stats, inventory, clues_found
 
 # Kitchen same thing with all the rooms only slight changes like 
 #
@@ -519,15 +480,12 @@ emma_subroom = "Locked Door"
 #         combat(5)  
 #     Else:
 #         reveal_hidden_clue("Food crumbs show kidnapper path.")  
-
-
-"""def kitchen(time_minutes, player_stats, inventory, clues_found, player_health):
+def kitchen(time_minutes, player_stats, inventory, clues_found, player_health):
     print("You enter the Kitchen.")
 
-    # Advance time locally
     time_minutes, _, _ = advance_time(time_minutes, False, 30)
 
-    # 40% chance for a villain encounter
+
     if random.random() < 0.4:
         player_health, villain_defeated = combat(5, player_stats, player_health, inventory)
         if villain_defeated:
@@ -536,36 +494,28 @@ emma_subroom = "Locked Door"
             print("The villain overpowered you… Game Over")
             return time_minutes, player_stats, inventory, clues_found, player_health, True  # Game over
     else:
-        # Reveal a clue if no combat
-        clues_found = reveal_hidden_clue("Food crumbs show kidnapper path.",
-                                         inventory, player_stats, clues_found)
+      
+        clues_found = reveal_hidden_clue("Food crumbs show kidnapper path.", inventory, player_stats, clues_found)
 
     return time_minutes, player_stats, inventory, clues_found, player_health, False
-"""
+
 # FUNCTION hallway():  
 #     PRINT "You enter the Hallway."  
 #     advance_time(30)  
 #     add_clue("Footsteps lead toward a compound wing.")  
 #     IF player["observation"] >= 12:  
 #         reveal_hidden_clue("Some footsteps are heavier → villain?")  
-
-
-
-"""def hallway(time_minutes, player_stats, inventory, clues_found):
+def hallway(time_minutes, player_stats, inventory, clues_found):
     print("You enter the Hallway.")
 
-    # Advance time locally
     time_minutes, _, _ = advance_time(time_minutes, False, 30)
 
-    # Add a basic clue
     clues_found = add_clue("Footsteps lead toward a compound wing.", clues_found)
 
-    # Optional hidden clue based on observation
     if player_stats["observation"] >= 12:
-        clues_found = reveal_hidden_clue("Some footsteps are heavier → villain?",
-                                         inventory, player_stats, clues_found)
+        clues_found = reveal_hidden_clue("Some footsteps are heavier → villain?", inventory, player_stats, clues_found)
 
-    return time_minutes, clues_found"""
+    return time_minutes, clues_found
 # FUNCTION basement():  
 #     PRINT "You enter the Basement."  
 #     advance_time(30)  
@@ -573,9 +523,7 @@ emma_subroom = "Locked Door"
 #         combat(8)  
 #     ELSE:  
 #         pick_up("Magnifying Glass")  
-
-
-"""def basement(time_minutes, player_stats, inventory, clues_found):
+def basement(time_minutes, player_stats, inventory, clues_found):
     print("You enter the Basement.")
 
     # Advance time locally
@@ -589,26 +537,22 @@ emma_subroom = "Locked Door"
         # Pick up item
         inventory = pick_up("Magnifying Glass", inventory)
 
-    return time_minutes, player_stats, inventory, clues_found"""
+    return time_minutes, player_stats, inventory, clues_found
 # FUNCTION training_room():  
 #     PRINT "You enter the Training Room."  
 #     advance_time(30)  
 #     player["strength_health"] += 10  
 #     PRINT "StrengthHealth increased by 10!"  
-
-
-"""def training_room(time_minutes, player_stats, inventory, clues_found):
+def training_room(time_minutes, player_stats, inventory, clues_found):
     print("You enter the Training Room.")
 
-    # Advance time locally
     time_minutes, _, _ = advance_time(time_minutes, False, 30)
 
-    # Increase strength/health
     player_stats["strength_health"] += 10
     print("Strength/Health increased by 10!")
 
     return time_minutes, player_stats, inventory, clues_found
-"""
+
 # FUNCTION puzzle_room():  
 #     PRINT "You enter the Puzzle Room."  
 #     advance_time(30)  
@@ -619,51 +563,40 @@ emma_subroom = "Locked Door"
 #         add_clue("Puzzle reveals false wings have more traps.")  
 #     player["logic"] += 2  
 #     PRINT "Logic increased!"  
-
-
-
-"""def puzzle_room(time_minutes, player_stats, inventory, clues_found):
+def puzzle_room(time_minutes, player_stats, inventory, clues_found):
     print("You enter the Puzzle Room.")
 
-    # Advance time locally
     time_minutes, _, _ = advance_time(time_minutes, False, 30)
 
-    # Puzzle challenge
     if player_stats["logic"] < 12:
         print("The puzzle confuses you… you waste extra time.")
         time_minutes, _, _ = advance_time(time_minutes, False, 20)
     else:
         clues_found = add_clue("Puzzle reveals false wings have more traps.", clues_found)
 
-    # Increase logic
     player_stats["logic"] += 2
     print("Logic increased!")
 
     return time_minutes, player_stats, inventory, clues_found
-"""
+
 # FUNCTION camera_room():  
 #     PRINT "You enter the Camera Room."  
 #     advance_time(30)  
 #     camera_clue = TRUE  
 #     add_clue("Camera shows kidnapper was near one wing earlier.")  
-
-
-"""def camera_room(time_minutes, player_stats, inventory, clues_found, camera_clue):
+def camera_room(time_minutes, player_stats, inventory, clues_found, camera_clue):
     print("You enter the Camera Room.")
 
-    # Advance time locally
     time_minutes, _, _ = advance_time(time_minutes, False, 30)
 
-    # Gain camera clue
     camera_clue = True
     clues_found = add_clue("Camera shows kidnapper was near one wing earlier.", clues_found)
 
-    # Optional: small observation boost
     player_stats["observation"] += 1
     print("Observation slightly increased from analyzing the footage.")
 
     return time_minutes, player_stats, inventory, clues_found, camera_clue
-"""
+
 # COMPOUND WINGS (MAIN + SUB-ROOM SYSTEM)  
 
 # FUNCTION west_wing():  
@@ -676,39 +609,28 @@ emma_subroom = "Locked Door"
 #     PRINT west wing sub-rooms  
 #     GET choice → subroom  
 #     CALL handle_subroom("West Wing", subroom)  
+def handle_subroom(wing, room, time_minutes, player_stats, inventory, clues_found):
+    print(f"You enter the {room} in the {wing}.")
+    if room == "Storage":
+        print("You find some old boxes.")
+  
+    elif room == "Armory":
+        print("You see weapons lining the walls.")
+       
+    elif room == "Hidden Closet":
+        print("A small hidden closet, dusty and dark.")
+    elif room == "Locked Door":
+        print("The door is locked. Maybe you need a key.")
+    elif room == "Trap Room":
+        print("Careful! This room is trapped.")
+  
+    elif room == "Fake Passage":
+        print("It looks like a passage, but leads nowhere.")
+    else:
+        print("This room is empty.")
 
+    return time_minutes, player_stats, inventory, clues_found
 
-
-"""def west_wing(time_minutes, player_stats, inventory, clues_found, camera_clue, player_strength_health):
-    print("Entering West Wing.")
-    
-    # Advance time locally
-    time_minutes, _, _ = advance_time(time_minutes, False, 30)
-
-    # Check if you catch the kidnapper
-    check_if_catch_kidnapper("West Wing (Compound)", camera_clue)
-
-    # Random villain encounter
-    if random.random() < 0.4:
-        player_strength_health, inventory, key_stolen = combat(player_strength_health, player_stats, inventory)
-
-    # Present sub-rooms
-    west_subrooms = ["Storage", "Armory", "Hidden Closet", "Locked Door", "Trap Room", "Fake Passage"]
-    print("Choose a sub-room:")
-    for i, room in enumerate(west_subrooms):
-        print(f"{i + 1}. {room}")
-
-    # Get choice (for local testing, you could pass it as a parameter)
-    choice = int(input("Enter sub-room number: ")) - 1
-    subroom = west_subrooms[choice]
-
-    # Handle subroom
-    time_minutes, player_stats, inventory, clues_found, player_strength_health = handle_subroom(
-        "West Wing", subroom, time_minutes, player_stats, inventory, clues_found, player_strength_health
-    )
-
-    return time_minutes, player_stats, inventory, clues_found, camera_clue, player_strength_health
-"""
 # FUNCTION east_wing():  
 #     PRINT "Entering East Wing."  
 #     advance_time(30)  
@@ -719,38 +641,29 @@ emma_subroom = "Locked Door"
 #     PRINT east wing sub-rooms  
 #     GET choice → subroom  
 #     CALL handle_subroom("East Wing", subroom)  
-
-
-"""def east_wing(time_minutes, player_stats, inventory, clues_found, camera_clue, player_strength_health):
+def east_wing(time_minutes, player_stats, inventory, clues_found, camera_clue, player_strength_health):
     print("Entering East Wing.")
     
-    # Advance time locally
     time_minutes, _, _ = advance_time(time_minutes, False, 30)
 
-    # Check if you catch the kidnapper
     check_if_catch_kidnapper("East Wing (Compound)", camera_clue)
 
-    # Random villain encounter
     if random.random() < 0.4:
         player_strength_health, inventory, key_stolen = combat(player_strength_health, player_stats, inventory)
-
-    # Present sub-rooms
     east_subrooms = ["Vent Room", "Secret Office", "Decoy Room", "Locked Door", "Trap Room", "Hidden Chamber"]
     print("Choose a sub-room:")
     for i, room in enumerate(east_subrooms):
         print(f"{i + 1}. {room}")
 
-    # Get choice (for local testing, you could pass it as a parameter)
     choice = int(input("Enter sub-room number: ")) - 1
     subroom = east_subrooms[choice]
 
-    # Handle subroom
     time_minutes, player_stats, inventory, clues_found, player_strength_health = handle_subroom(
         "East Wing", subroom, time_minutes, player_stats, inventory, clues_found, player_strength_health
     )
 
     return time_minutes, player_stats, inventory, clues_found, camera_clue, player_strength_health
-"""
+
 # SUB-ROOM HANDLER  
 # FUNCTION handle_subroom(wing, subroom):  
 #     IF subroom == "Locked Door":  
@@ -763,24 +676,6 @@ emma_subroom = "Locked Door"
 #             ELSE:  
 #                 PRINT "Empty room…"  
 #         RETURN  
-
-
-"""def handle_subroom(wing, subroom, time_minutes, player_stats, inventory, clues_found, player_strength_health):
-    if subroom == "Locked Door":
-        can_unlock, time_minutes, kidnapper_moving = use_master_key(
-            subroom, inventory, key_stolen, diary_misread, time_minutes, kidnapper_moving
-        )
-        if can_unlock:
-            if emma_room == wing:
-                print("You found Emma! You rescue her! YOU WIN")
-                return time_minutes, player_stats, inventory, clues_found, player_strength_health  # Game won
-            elif kidnapper_room == wing:
-                kidnapper_encounter(caught=False, player_stats=player_stats, camera_clue=camera_clue,
-                                    time_minutes=time_minutes)
-            else:
-                print("Empty room…")
-        return time_minutes, player_stats, inventory, clues_found, player_strength_health
-"""
 #     IF subroom == "Trap Room":  
 #         PRINT "A trap triggers!"  
 #         trap_dmg = RANDOM(5,15) - (player["observation"] // 5)  
@@ -788,20 +683,31 @@ emma_subroom = "Locked Door"
 #         PRINT "You take trap_dmg damage."  
 #         IF player["strength_health"] <= 0: GAME OVER  
 #         RETURN  
-
-
-
-"""import random
-
-def handle_subroom(wing, subroom, time_minutes, player_stats, inventory, clues_found, emma_room,
-                   kidnapper_room, key_stolen, diary_misread, camera_clue):
-    # Locked Door logic (already covered)
+#     IF subroom == "Decoy Room" OR subroom == "Fake Passage":  
+#         PRINT "This room is a trick!"  
+#         add_clue("This wing contains decoys.")  
+#         advance_time(10)  
+#         RETURN  
+#     IF RANDOM() < 0.3:  
+#         combat(7)  
+#     reveal_hidden_clue("Strange marks hint at correct wing.")  
+def handle_subroom(
+    wing, subroom,
+    time_minutes, player_stats,
+    inventory, clues_found,
+    emma_room, kidnapper_room,
+    key_stolen, diary_misread,
+    camera_clue
+):
+  
     if subroom == "Locked Door":
-        success, time_minutes, _ = use_master_key(subroom, inventory, key_stolen, diary_misread, time_minutes, False)
+        success, time_minutes, _ = use_master_key(
+            subroom, inventory, key_stolen, diary_misread, time_minutes, False
+        )
         if success:
             if emma_room == wing:
                 print("You found Emma! You rescue her!")
-                return time_minutes, player_stats, inventory, clues_found, True  # Win flag
+                return time_minutes, player_stats, inventory, clues_found, True  # Win
             elif kidnapper_room == wing:
                 print("You encounter the kidnapper!")
                 kidnapper_encounter(False, player_stats, inventory, clues_found, camera_clue)
@@ -809,8 +715,7 @@ def handle_subroom(wing, subroom, time_minutes, player_stats, inventory, clues_f
                 print("Empty room…")
         return time_minutes, player_stats, inventory, clues_found, False
 
-    # Trap Room logic
-    if subroom == "Trap Room":
+    elif subroom == "Trap Room":
         print("A trap triggers!")
         trap_dmg = random.randint(5, 15) - (player_stats["observation"] // 5)
         trap_dmg = max(trap_dmg, 0)  # Prevent negative damage
@@ -821,30 +726,24 @@ def handle_subroom(wing, subroom, time_minutes, player_stats, inventory, clues_f
             return time_minutes, player_stats, inventory, clues_found, "GAME OVER"
         return time_minutes, player_stats, inventory, clues_found, False
 
-    # Other subroom types (Decoy Room, combat, etc.) can follow...
-"""
-#     IF subroom == "Decoy Room" OR subroom == "Fake Passage":  
-#         PRINT "This room is a trick!"  
-#         add_clue("This wing contains decoys.")  
-#         advance_time(10)  
-#         RETURN  
+    elif subroom in ["Decoy Room", "Fake Passage"]:
+        print("This room is a trick!")
+        clues_found = add_clue(f"{wing} contains decoys.", clues_found)
+        time_minutes, _, _ = advance_time(time_minutes, False, 10)
+        return time_minutes, player_stats, inventory, clues_found, False
 
 
-"""if subroom in ["Decoy Room", "Fake Passage"]:
-    print("This room is a trick!")
-    clues_found = add_clue(f"{wing} contains decoys.", clues_found)
-    time_minutes, _, _ = advance_time(time_minutes, False, 10)
+    elif random.random() < 0.3:
+        combat_result = combat(7, player_stats, inventory, clues_found)
+        if combat_result == "GAME OVER":
+            return time_minutes, player_stats, inventory, clues_found, "GAME OVER"
+
+    clues_found = reveal_hidden_clue(
+        "Strange marks hint at correct wing.", inventory, player_stats, clues_found
+    )
+
     return time_minutes, player_stats, inventory, clues_found, False
-"""
-#     IF RANDOM() < 0.3:  
-#         combat(7)  
 
-
-"""if random.random() < 0.3:
-    combat_result = combat(7, player_stats, inventory, clues_found)
-"""
-#     reveal_hidden_clue("Strange marks hint at correct wing.")  
-"""clues_found = reveal_hidden_clue("Strange marks hint at correct wing.", inventory, player_stats, clues_found)"""
 # FINAL KIDNAPPER ENCOUNTER  
 # FUNCTION kidnapper_encounter(caught):  
 #     PRINT "You confront the kidnapper!"  
@@ -879,6 +778,41 @@ def handle_subroom(wing, subroom, time_minutes, player_stats, inventory, clues_f
 
 #     PRINT "You fail the maze… the kidnapper escapes."  
 #     GAME OVER  
+def kidnapper_encounter(caught, player_stats, camera_clue, time_minutes):
+    print("You confront the kidnapper!")
+    auto_win = False
+
+    if caught:
+        print("You caught him during his murder attempt!")
+        auto_win = True
+
+    if camera_clue:
+        print("Camera evidence disrupts his tricks.")
+        auto_win = True
+
+    if player_stats.get("logic", 0) >= 14 or player_stats.get("intelligence", 0) >= 14:
+        print("Your mind resists his illusion maze.")
+        auto_win = True
+
+    if auto_win:
+        print("Kidnapper defeated psychologically!")
+        print("He reveals Emma’s location!")
+        return "WIN", time_minutes  # Game won
+
+    print("The kidnapper drags you into a maze of riddles…")
+    time_minutes, _, _ = advance_time(time_minutes, False, 20)
+
+    if time_minutes >= 22 * 60:
+        print("You ran out of time!")
+        return "GAME OVER", time_minutes
+
+    if random.random() < 0.3:
+        print("You solve the riddle by luck!")
+        return "WIN", time_minutes
+
+    print("You fail the maze… the kidnapper escapes.")
+    return "GAME OVER", time_minutes
+
 
 # MAIN GAME LOOP  
 # PRINT "WELCOME TO MYSTERY MANSION!"
@@ -904,3 +838,63 @@ print("Save Emma because he is a gentle man, and he is screaming for help?")
 #     IF selected_room == "East Wing (Compound)": east_wing()  
 
 # END LOOP  
+rooms = [
+    "Library", "Kitchen", "Hallway", "Basement", "Training Room", 
+    "Puzzle Room", "Camera Room", "West Wing (Compound)", "East Wing (Compound)"
+]
+
+time_minutes = 8 * 60 
+player_stats = {...}   
+inventory = [...]      
+clues_found = [...]   
+player_strength_health = ...  
+camera_clue = False    
+
+print("Welcome to Mystery Mansion. You are a detective and have to find Emma before 10:00 p.m.")
+print("Save Emma because he is a gentle man, and he is screaming for help?")
+
+while True:
+    # Show current time formatted (e.g. 8:30 AM)
+    hours = time_minutes // 60
+    minutes = time_minutes % 60
+    print(f"\nCurrent time: {hours:02d}:{minutes:02d}")
+
+    print("Rooms:")
+    for i, room in enumerate(rooms, 1):
+        print(f"{i}. {room}")
+
+    try:
+        choice = int(input("Choose a room by number: "))
+        if choice < 1 or choice > len(rooms):
+            print("Invalid choice. Please pick a valid room number.")
+            continue
+    except ValueError:
+        print("Please enter a number.")
+        continue
+
+    selected_room = rooms[choice - 1]
+
+    if selected_room == "Library":
+        time_minutes, player_stats, inventory, clues_found = library(time_minutes, player_stats, inventory, clues_found)
+    elif selected_room == "Kitchen":
+        time_minutes, player_stats, inventory, clues_found = kitchen(time_minutes, player_stats, inventory, clues_found)
+    elif selected_room == "Hallway":
+        time_minutes, player_stats, inventory, clues_found = hallway(time_minutes, player_stats, inventory, clues_found)
+    elif selected_room == "Basement":
+        time_minutes, player_stats, inventory, clues_found = basement(time_minutes, player_stats, inventory, clues_found)
+    elif selected_room == "Training Room":
+        time_minutes, player_stats, inventory, clues_found = training_room(time_minutes, player_stats, inventory, clues_found)
+    elif selected_room == "Puzzle Room":
+        time_minutes, player_stats, inventory, clues_found = puzzle_room(time_minutes, player_stats, inventory, clues_found)
+    elif selected_room == "Camera Room":
+        time_minutes, player_stats, inventory, clues_found, camera_clue = camera_room(time_minutes, player_stats, inventory, clues_found, camera_clue)
+    elif selected_room == "West Wing (Compound)":
+        time_minutes, player_stats, inventory, clues_found, camera_clue, player_strength_health = west_wing(
+            time_minutes, player_stats, inventory, clues_found, camera_clue, player_strength_health)
+    elif selected_room == "East Wing (Compound)":
+        time_minutes, player_stats, inventory, clues_found, camera_clue, player_strength_health = east_wing(
+            time_minutes, player_stats, inventory, clues_found, camera_clue, player_strength_health)
+
+    if time_minutes > 22 * 60:  # 10 PM in minutes
+        print("You ran out of time! Game over.")
+        break
