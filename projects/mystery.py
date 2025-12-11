@@ -816,10 +816,7 @@ def kidnapper_encounter(caught, player_stats, camera_clue, time_minutes):
 
 # MAIN GAME LOOP  
 # PRINT "WELCOME TO MYSTERY MANSION!"
-print("Welcome to Mystery Mansion. You are a detective and have to find Emma before 10:00 p.m. You will get the opportunity to visit each room in the mansion")  
 # PRINT "Find Emma before 10 PM!"  
-print("Save Emma because he is a gentle man, and he is screaming for help?")
-
 # WHILE TRUE:  
 #     show_time()  
 #     PRINT ROOMS  
@@ -836,7 +833,6 @@ print("Save Emma because he is a gentle man, and he is screaming for help?")
 #     IF selected_room == "Camera Room": camera_room()  
 #     IF selected_room == "West Wing (Compound)": west_wing()  
 #     IF selected_room == "East Wing (Compound)": east_wing()  
-
 # END LOOP  
 rooms = [
     "Library", "Kitchen", "Hallway", "Basement", "Training Room", 
