@@ -54,7 +54,7 @@ player_stats = {
 }
 # Inventory and Clues
 # inventory = []  
-# clues_found = []  as the game goes the player will take clues
+# clues_found = []  as the game goes the player will find clues
 # camera_clue = FALSE  
 # key_stolen = FALSE  
 # diary_misread = FALSE 
@@ -185,7 +185,7 @@ def read_diary(inventory, player_stats, diary_misread, clues_found):
     if "Diary" not in inventory:
         print("You don't have the diary")
         return diary_misread, clues_found 
-    if player_stats["logic"] < 12 or player_stats["observation"] < 12:
+    if player_stats("logic") < 12 or player_stats["observation"] < 12:# logic isnt't defined
         print("You misread the diary… it gives false directions!")
         diary_misread = True
     else:
@@ -414,7 +414,7 @@ def kidnapper_encounter(caught, player_stats, camera_clue, time_minutes):
         auto_win = True
 
     elif player_stats["logic"] >= 14:
-        print("Your logic exposes the kidnapper’s tricks.")
+        print("Your logic exposes the kidnapper's tricks.")
         print("The illusion maze collapses.")
         auto_win = True
 
@@ -460,7 +460,7 @@ def library(time_minutes, player_stats, inventory, clues_found):
 
     if time_minutes < 12 * 60:
         clues_found = reveal_hidden_clue(
-            "Early morning dust pattern → wing direction",
+            "Early morning dust pattern, wing direction",
             diary_misread, inventory, player_stats, clues_found
         )
     else:
@@ -484,7 +484,6 @@ def kitchen(time_minutes, player_stats, inventory, clues_found, player_health):
     print("You enter the Kitchen.")
 
     time_minutes, _, _ = advance_time(time_minutes, False, 30)
-
 
     if random.random() < 0.4:
         player_health, villain_defeated = combat(5, player_stats, player_health, inventory)
@@ -718,7 +717,7 @@ def handle_subroom(
     elif subroom == "Trap Room":
         print("A trap triggers!")
         trap_dmg = random.randint(5, 15) - (player_stats["observation"] // 5)
-        trap_dmg = max(trap_dmg, 0)  # Prevent negative damage
+        trap_dmg = max(trap_dmg, 0)  
         player_stats["strength_health"] -= trap_dmg
         print(f"You take {trap_dmg} damage.")
         if player_stats["strength_health"] <= 0:
@@ -796,8 +795,8 @@ def kidnapper_encounter(caught, player_stats, camera_clue, time_minutes):
 
     if auto_win:
         print("Kidnapper defeated psychologically!")
-        print("He reveals Emma’s location!")
-        return "WIN", time_minutes  # Game won
+        print("He reveals Emma's location!")
+        return "WIN", time_minutes  
 
     print("The kidnapper drags you into a maze of riddles…")
     time_minutes, _, _ = advance_time(time_minutes, False, 20)
@@ -847,7 +846,7 @@ player_strength_health = ...
 camera_clue = False    
 
 print("Welcome to Mystery Mansion. You are a detective and have to find Emma before 10:00 p.m.")
-print("Save Emma because he is a gentle man, and he is screaming for help?")
+print("Save Emma because he is a gentle man, and he is screaming for help!!!")
 
 while True:
     # Show current time formatted (e.g. 8:30 AM)
@@ -885,12 +884,12 @@ while True:
     elif selected_room == "Camera Room":
         time_minutes, player_stats, inventory, clues_found, camera_clue = camera_room(time_minutes, player_stats, inventory, clues_found, camera_clue)
     elif selected_room == "West Wing (Compound)":
-        time_minutes, player_stats, inventory, clues_found, camera_clue, player_strength_health = west_wing(
+        time_minutes, player_stats, inventory, clues_found, camera_clue, player_strength_health = wing(
             time_minutes, player_stats, inventory, clues_found, camera_clue, player_strength_health)
     elif selected_room == "East Wing (Compound)":
         time_minutes, player_stats, inventory, clues_found, camera_clue, player_strength_health = east_wing(
             time_minutes, player_stats, inventory, clues_found, camera_clue, player_strength_health)
 
-    if time_minutes > 22 * 60:  # 10 PM in minutes
+    if time_minutes > 22 * 60:  
         print("You ran out of time! Game over.")
         break
