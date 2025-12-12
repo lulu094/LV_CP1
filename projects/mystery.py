@@ -1,8 +1,6 @@
+# LV 2nd Mystery Game
 import random
-
-# -------------------------------
 # GAME SETUP
-# -------------------------------
 
 def create_game_state():
     emma_room = random.choice(["West Wing (Compound)", "East Wing (Compound)"])
@@ -26,9 +24,14 @@ def create_game_state():
     }
     return state
 
-# -------------------------------
 # UTILITY FUNCTIONS
-# -------------------------------
+
+"""def restart():
+    while True:
+        play = input("Do you want to play again? ")
+        if play == "yes":
+            #reset variables
+            #call play_game()"""
 
 def show_time(time_minutes):
     hours = time_minutes // 60
@@ -47,10 +50,7 @@ def advance_time(minutes, state):
         state["game_over"] = True
     return state
 
-# -------------------------------
 # COMBAT SYSTEM
-# -------------------------------
-
 def combat(villain_power, state):
     print("A villain attacks!")
     enemy_health = 20 + villain_power * 2
@@ -70,10 +70,7 @@ def combat(villain_power, state):
             return state
     return state
 
-# -------------------------------
 # CLUES & ITEMS
-# -------------------------------
-
 def pick_up(item, state):
     if item not in state["inventory"]:
         state["inventory"].append(item)
@@ -120,17 +117,14 @@ def use_master_key(subroom, state):
     print("The Master Key unlocks the door successfully!")
     return True
 
-# -------------------------------
 # ROOM FUNCTIONS
-# -------------------------------
-
 def library(state):
     print("You enter the Library.")
     state = advance_time(30, state)
     if random.random() < 0.4 and "Diary" not in state["inventory"]:
         state = pick_up("Diary", state)
         state = read_diary(state)
-    state = reveal_hidden_clue("Early morning dust pattern → wing direction", state)
+    state = reveal_hidden_clue("Early morning dust pattern - wing direction", state)
     return state
 
 def kitchen(state):
@@ -147,7 +141,7 @@ def hallway(state):
     state = advance_time(30, state)
     state = add_clue("Footsteps lead toward a compound wing.", state)
     if state["player"]["observation"] >= 12:
-        state = reveal_hidden_clue("Some footsteps are heavier → villain?", state)
+        state = reveal_hidden_clue("Some footsteps are heavier - villain?", state)
     return state
 
 def basement(state):
@@ -187,10 +181,7 @@ def camera_room(state):
     print("Observation slightly increased from analyzing the footage.")
     return state
 
-# -------------------------------
 # WINGS & SUBROOMS
-# -------------------------------
-
 def handle_subroom(subroom, state, wing):
     if subroom == "Locked Door":
         if use_master_key(subroom, state):
@@ -229,12 +220,11 @@ def wing(state, wing_name):
     state = handle_subroom(choice, state, wing_name)
     return state
 
-# -------------------------------
 # MAIN GAME LOOP
-# -------------------------------
-
 def play_game():
     state = create_game_state()
+    print("Welcome to Mystery game, you will be able to be a detective who is trying to find Emma who has been kidnapped and hidden in one of the rooms")
+    print("Emma is a gentle man and a gentlemen who is is screaming for HELP.")
 
     while not state["game_over"]:
         show_time(state["time_minutes"])
@@ -269,11 +259,8 @@ def play_game():
             state = camera_room(state)
         elif selected_room in ["West Wing (Compound)", "East Wing (Compound)"]:
             state = wing(state, selected_room)
+        
 
     print("Game Over! Thank you for testing Mystery Mansion!")
-
-# -------------------------------
-# START GAME
-# -------------------------------
 
 play_game()
