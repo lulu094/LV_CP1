@@ -1,0 +1,23 @@
+# MAIN GAME LOOP  
+# PRINT "WELCOME TO MYSTERY MANSION!"
+# PRINT "Find Emma before 10 PM!"  
+# WHILE TRUE:  
+#     show_time()  
+#     PRINT ROOMS  
+#     GET user choice  
+#     VALIDATE input  
+#     selected_room = ROOMS[choice - 1]  
+
+#     IF selected_room == "Library": library()  
+#     IF selected_room == "Kitchen": kitchen()  
+#     IF selected_room == "Hallway": hallway()  
+#     IF selected_room == "Basement": basement()  
+     IF selected_room == "Training Room": training_room()  
+     IF selected_room == "Puzzle Room": puzzle_room()  
+     IF selected_room == "Camera Room": camera_room()  
+     IF selected_room == "West Wing (Compound)": west_wing()  
+     IF selected_room == "East Wing (Compound)": east_wing()  
+     Ask player if they want to play again
+     if != yes:
+        print thank you for playing mystery mansion
+ END LOOP  
