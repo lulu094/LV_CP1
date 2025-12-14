@@ -25,14 +25,6 @@ def create_game_state():
     return state
 
 # UTILITY FUNCTIONS
-
-"""def restart():
-    while True:
-        play = input("Do you want to play again? ")
-        if play == "yes":
-            #reset variables
-            #call play_game()"""
-
 def show_time(time_minutes):
     hours = time_minutes // 60
     mins = time_minutes % 60
@@ -52,23 +44,71 @@ def advance_time(minutes, state):
 
 # COMBAT SYSTEM
 def combat(villain_power, state):
-    print("A villain attacks!")
-    enemy_health = 20 + villain_power * 2
+    enemy_health = 30 + villain_power * 5
+    defending = False
+
+    print("\nCombat starts!")
+
     while enemy_health > 0 and state["player"]["strength_health"] > 0:
-        dmg = (state["player"]["strength_health"] // 10) + random.randint(1, 6)
-        enemy_health -= dmg
-        print(f"You strike the villain for {dmg} damage.")
-        if enemy_health <= 0:
-            print("Villain defeated!")
+        print("\nCombat Status")
+        print(f"Your Health: {state['player']['strength_health']}")
+        print(f"Enemy Health: {enemy_health}")
+
+        print("\nChoose your action:")
+        print("1. Attack")
+        print("2. Defend")
+        print("3. Analyze")
+        print("4. Run")
+
+        choice = input("> ")
+
+        # PLAYER TURN
+        if choice == "1":
+            dmg = random.randint(5, 10) + state["player"]["strength_health"] // 20
+            enemy_health -= dmg
+            print(f"You attack and deal {dmg} damage!")
+
+        elif choice == "2":
+            defending = True
+            print("You prepare to defend.")
+
+        elif choice == "3":
+            state["player"]["intelligence"] += 1
+            print("You analyze the enemy. Intelligence increased!")
+
+        elif choice == "4":
+            print("You escape the fight!")
+            state = advance_time(10, state)
             return state
-        enemy_dmg = villain_power + random.randint(1, 5) - (state["player"]["intelligence"] // 5)
+
+        else:
+            print("Invalid choice.")
+            continue
+
+        # CHECK ENEMY DEAD
+        if enemy_health <= 0:
+            print("You defeated the enemy!")
+            state["player"]["strength_health"] += 5
+            print("You recover 5 health.")
+            return state
+
+        # ENEMY TURN
+        enemy_dmg = random.randint(5, 10) + villain_power
+        if defending:
+            enemy_dmg //= 2
+            defending = False
+            print("Your defense reduces the damage!")
+
         state["player"]["strength_health"] -= enemy_dmg
-        print(f"Villain hits you for {enemy_dmg} damage.")
+        print(f"The enemy hits you for {enemy_dmg} damage!")
+
         if state["player"]["strength_health"] <= 0:
-            print("You collapsed… Game Over.")
+            print("You collapsed... Game Over.")
             state["game_over"] = True
             return state
+
     return state
+
 
 # CLUES & ITEMS
 def pick_up(item, state):
@@ -156,8 +196,12 @@ def basement(state):
 def training_room(state):
     print("You enter the Training Room.")
     state = advance_time(30, state)
+
+    if "Master Key" not in state["inventory"]:
+        state = pick_up("Master Key", state)
+
     state["player"]["strength_health"] += 10
-    print("StrengthHealth increased by 10!")
+    print("Strength increased by 10!")
     return state
 
 def puzzle_room(state):
@@ -184,13 +228,14 @@ def camera_room(state):
 # WINGS & SUBROOMS
 def handle_subroom(subroom, state, wing):
     if subroom == "Locked Door":
-        if use_master_key(subroom, state):
+        if use_master_key(state):
             if state["emma_room"] == wing:
-                print("You found Emma! You rescue her!")
+                print("You found Emma! You rescue him!")
                 state["game_over"] = True
             else:
-                print("Empty room…")
+                print("The room is empty… Emma is not here.")
         return state
+
     if subroom == "Trap Room":
         print("A trap triggers!")
         trap_dmg = random.randint(5, 15) - (state["player"]["observation"] // 5)
@@ -213,24 +258,57 @@ def handle_subroom(subroom, state, wing):
 def wing(state, wing_name):
     print(f"Entering {wing_name}.")
     state = advance_time(30, state)
+
     subrooms = state["west_subrooms"] if "West" in wing_name else state["east_subrooms"]
-    print("Choose a sub-room:")
-    print(subrooms)
-    choice = random.choice(subrooms)
-    state = handle_subroom(choice, state, wing_name)
+
+    while True:
+        print("\nChoose a sub-room:")
+        for i, room in enumerate(subrooms, 1):
+            print(f"{i}. {room}")
+
+        try:
+            choice = int(input("Select a sub-room by number: "))
+            if 1 <= choice <= len(subrooms):
+                chosen_subroom = subrooms[choice - 1]
+                break
+            else:
+                print("Invalid choice.")
+        except ValueError:  # Stops game from crashing
+            print("Please enter a number:")
+
+    state = handle_subroom(chosen_subroom, state, wing_name)
     return state
 
+
+def play_again():
+    while True:
+        choice = input("Do you want to play again? (yes/no): ").lower()
+        if choice in ("yes", "y"):
+            return True
+        elif choice in ("no", "n"):
+            return False
+        else:
+            print("Please enter yes or no.")
+
+
 # MAIN GAME LOOP
-def play_game():
+
+while True:
     state = create_game_state()
-    print("Welcome to Mystery game, you will be able to be a detective who is trying to find Emma who has been kidnapped and hidden in one of the rooms")
-    print("Emma is a gentle man and a gentlemen who is is screaming for HELP.")
+
+    print("Welcome to Mystery game! You will be a detective who is trying to find Emma, who has been kidnapped and hidden in one of the rooms.")
+    print("Emma is a gentleman and a gentle men who is screaming for HELP.")
+    print("To find him, you will need to choose a number to move to each room.")
+    print("Along the way, you may encounter villains who will try to sabotage you and hurt you so you don't reach Emma.")
+    print("During combat, you can choose to Attack, Defend, Analyze, or Run to survive and continue your search.")
+    print("The game starts at 8:00 AM but if you don't find Emma before 10PM. He will ...")
+
 
     while not state["game_over"]:
         show_time(state["time_minutes"])
         print("\nRooms:")
-        for idx, room in enumerate(state["rooms"], 1):
-            print(f"{idx}. {room}")
+        for num, room in enumerate(state["rooms"], 1): 
+            print(f"{num}. {room}")
 
         try:
             choice = int(input("Choose a room by number: "))
@@ -259,8 +337,9 @@ def play_game():
             state = camera_room(state)
         elif selected_room in ["West Wing (Compound)", "East Wing (Compound)"]:
             state = wing(state, selected_room)
-        
 
     print("Game Over! Thank you for testing Mystery Mansion!")
 
-play_game()
+    if not play_again():
+        print("Thanks for playing Mystery Mansion!")
+        break
