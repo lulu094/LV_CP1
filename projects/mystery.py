@@ -143,7 +143,7 @@ def read_diary(state):
         state = add_clue("Diary: True wing avoids traps and decoys.", state)
     return state
 
-def use_master_key(state):#Why is do i always find emma in subroom 4
+def use_master_key(state):#Why is do i always find emma in room 4
     if "Master Key" not in state["inventory"]:
         print("You need the Master Key.")
         return False
